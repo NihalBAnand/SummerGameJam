@@ -107,4 +107,15 @@ public class PlayerScript : MonoBehaviour
             signRange = false;
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "door")
+        {
+            if (collision.collider.GetComponent<DoorController>().reverse)
+                rigidbody2D.position = new Vector2(collision.collider.GetComponent<DoorController>().door.transform.position.x, collision.collider.GetComponent<DoorController>().door.transform.position.y + 1f);
+            else
+                rigidbody2D.position = new Vector2(collision.collider.GetComponent<DoorController>().door.transform.position.x, collision.collider.GetComponent<DoorController>().door.transform.position.y - 1f);
+        }
+    }
 }
