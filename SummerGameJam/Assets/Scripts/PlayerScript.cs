@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -19,6 +20,14 @@ public class PlayerScript : MonoBehaviour
     public bool signRange = false;
     public string signText;
 
+    public int health;
+    public int mana;
+    public int stamina;
+    public int maxHealth;
+    public int maxMana;
+    public int maxStamina;
+    public int battleSpeed;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +36,14 @@ public class PlayerScript : MonoBehaviour
         space.enabled = false;
         textBox.enabled = false;
         text.enabled = false;
+
+        health = GlobalController.pHealth;
+        mana = GlobalController.pMana;
+        stamina = GlobalController.pStamina;
+        maxHealth = GlobalController.pMaxHealth;
+        maxMana = GlobalController.pMaxMana;
+        maxStamina = GlobalController.pMaxStamina;
+        battleSpeed = GlobalController.speed;
     }
 
     // Update is called once per frame
@@ -100,6 +117,11 @@ public class PlayerScript : MonoBehaviour
             textBox.enabled = false;
             text.enabled = false;
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+            SceneManager.LoadScene(1);
+        if (Input.GetKeyDown(KeyCode.E))
+            Debug.Log(health);
     }
 
     void FixedUpdate()
@@ -134,6 +156,12 @@ public class PlayerScript : MonoBehaviour
                 rigidbody2D.position = new Vector2(collision.collider.GetComponent<DoorController>().door.transform.position.x, collision.collider.GetComponent<DoorController>().door.transform.position.y + 1.5f);
             else
                 rigidbody2D.position = new Vector2(collision.collider.GetComponent<DoorController>().door.transform.position.x, collision.collider.GetComponent<DoorController>().door.transform.position.y - 1.5f);
+        }
+
+        if (collision.collider.tag == "enemy")
+        {
+            health -= 10;
+            GlobalController.pHealth -= 10;
         }
     }
 }
