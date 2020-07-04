@@ -33,6 +33,7 @@ public class PlayerScript : MonoBehaviour
     {
         anim = gameObject.GetComponent<Animator>();
         rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+
         space.enabled = false;
         textBox.enabled = false;
         text.enabled = false;
@@ -94,6 +95,7 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
+        //logic for detecting if sign is accessible and displaying the text if space is pressed
         if (signRange)
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -118,6 +120,7 @@ public class PlayerScript : MonoBehaviour
             text.enabled = false;
         }
 
+        //debug for static data
         if (Input.GetKeyDown(KeyCode.Escape))
             SceneManager.LoadScene(1);
         if (Input.GetKeyDown(KeyCode.E))
@@ -126,6 +129,7 @@ public class PlayerScript : MonoBehaviour
 
     void FixedUpdate()
     {
+        //don't touch unless it's broken - movement
         rigidbody2D.MovePosition(rigidbody2D.position + movement * speed * Time.fixedDeltaTime);
     }
 
@@ -158,6 +162,7 @@ public class PlayerScript : MonoBehaviour
                 rigidbody2D.position = new Vector2(collision.collider.GetComponent<DoorController>().door.transform.position.x, collision.collider.GetComponent<DoorController>().door.transform.position.y - 1.5f);
         }
 
+        //debug for static data
         if (collision.collider.tag == "enemy")
         {
             health -= 10;

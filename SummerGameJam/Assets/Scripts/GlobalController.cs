@@ -16,12 +16,14 @@ public class GlobalController : MonoBehaviour
 
     private void Awake()
     {
+        //<untouchable>
         if (gc != null)
             GameObject.Destroy(gc);
         else
             gc = this;
 
         DontDestroyOnLoad(this);
+        //</untouchable>
 
         pHealth = 100;
         pMana = 100;
