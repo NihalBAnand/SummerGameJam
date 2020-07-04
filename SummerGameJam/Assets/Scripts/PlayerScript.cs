@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerScript : MonoBehaviour
 {
     private Animator anim;
+    private int frame = 0;
 
     private Rigidbody2D rigidbody2D;
     public float speed = 5f;
@@ -38,25 +39,42 @@ public class PlayerScript : MonoBehaviour
             
             if (movement.x > 0)
             {
-                anim.Play("PlayerWalkLeft");
+                anim.Play("PlayerWalkRight");
+                frame = 1;
             }
             else if (movement.x < 0)
             {
                 anim.Play("PlayerWalkLeft");
+                frame = 2;
             }
             else if (movement.y > 0)
             {
                 anim.Play("PlayerWalkUp");
+                frame = 3;
             }
             else if (movement.y < 0)
             {
                 anim.Play("PlayerWalkDown");
+                frame = 0;
             }
         }
         else
         {
-            anim.Play("PlayerIdle");
-            
+            switch (frame)
+            {
+                case 0:
+                    anim.Play("PlayerIdleDown");
+                    break;
+                case 1:
+                    anim.Play("PlayerIdleRight");
+                    break;
+                case 2:
+                    anim.Play("PlayerIdleLeft");
+                    break;
+                case 3:
+                    anim.Play("PlayerIdleUp");
+                    break;
+            }
         }
 
         if (signRange)
@@ -113,9 +131,9 @@ public class PlayerScript : MonoBehaviour
         if (collision.collider.tag == "door")
         {
             if (collision.collider.GetComponent<DoorController>().reverse)
-                rigidbody2D.position = new Vector2(collision.collider.GetComponent<DoorController>().door.transform.position.x, collision.collider.GetComponent<DoorController>().door.transform.position.y + 1f);
+                rigidbody2D.position = new Vector2(collision.collider.GetComponent<DoorController>().door.transform.position.x, collision.collider.GetComponent<DoorController>().door.transform.position.y + 1.5f);
             else
-                rigidbody2D.position = new Vector2(collision.collider.GetComponent<DoorController>().door.transform.position.x, collision.collider.GetComponent<DoorController>().door.transform.position.y - 1f);
+                rigidbody2D.position = new Vector2(collision.collider.GetComponent<DoorController>().door.transform.position.x, collision.collider.GetComponent<DoorController>().door.transform.position.y - 1.5f);
         }
     }
 }
