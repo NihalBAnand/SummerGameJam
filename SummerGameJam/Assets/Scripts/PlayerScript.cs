@@ -131,6 +131,11 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
             Debug.Log(health);
     }
+    void OnDisable()
+    {
+        PlayerPrefs.SetInt("partymembers", partymembers);
+
+    }
 
     void FixedUpdate()
     {

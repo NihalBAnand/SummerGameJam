@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Testing Ground 2.unity
     guid: 2dc2ebc2108e8a1408fc9fc545f8ff58
+  - enabled: 1
+    path: Assets/Scenes/Battle System Testing.unity
+    guid: f40edafb032a2754889016c7d7abf596
   m_configObjects: {}
