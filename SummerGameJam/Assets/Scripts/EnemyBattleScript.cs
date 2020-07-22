@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyBattleScript : MonoBehaviour
 {
-    public int health = 100;
+    public int health = 50;
     public int dmg    = 10;
     public int speed  = 4;
     public int moved  = 0;
