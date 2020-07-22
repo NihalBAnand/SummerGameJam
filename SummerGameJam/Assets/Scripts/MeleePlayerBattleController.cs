@@ -29,7 +29,7 @@ public class MeleePlayerBattleController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        moveText = GameObject.FindGameObjectWithTag("Moves");
+        moveText = GameObject.FindGameObjectWithTag("Moves").GetComponent<Text>();
         isTurn = true;
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("enemy"))
         {
