@@ -28,6 +28,7 @@ public class PlayerScript : MonoBehaviour
     public int maxStamina;
     public int battleSpeed;
 
+    public int partymembers = 3;
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +53,10 @@ public class PlayerScript : MonoBehaviour
     {
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            SceneManager.LoadScene("Assets/Scenes/Battle System Testing.unity");
+        }
         if (movement.x != 0 || movement.y != 0)
         {
             

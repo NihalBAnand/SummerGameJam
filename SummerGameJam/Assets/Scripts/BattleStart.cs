@@ -11,10 +11,7 @@ public class BattleStart : MonoBehaviour
     int enemy = 0;
     void Start()
     {
-        for(int i = 0; i<players.Length; i++)
-        {
-            Debug.Log(players[i]);
-        }
+     
     }
 
     // Update is called once per frame
