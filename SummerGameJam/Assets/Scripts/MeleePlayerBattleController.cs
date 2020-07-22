@@ -52,6 +52,10 @@ public class MeleePlayerBattleController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Return))
                 StartCoroutine(EndTurn());
         }
+        if (enemies.Count <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     
@@ -112,6 +116,9 @@ public class MeleePlayerBattleController : MonoBehaviour
     {
         foreach (GameObject e in enemies)
         {
+            if (e == null)
+                enemies.Remove(e);
+
             if ((e.transform.position.x + 1 == gameObject.transform.position.x || e.transform.position.x - 1 == gameObject.transform.position.x) && (e.transform.position.y == gameObject.transform.position.y))
             {
                 enemyAdj = true;
