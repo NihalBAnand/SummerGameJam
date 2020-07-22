@@ -31,6 +31,7 @@ public class EnemyBattleScript : MonoBehaviour
             player.isEnemyTurn = false;
 
         }
+        
     }
 
     IEnumerator Move()
