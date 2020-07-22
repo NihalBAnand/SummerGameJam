@@ -15,11 +15,13 @@ public class BattleStart : MonoBehaviour
     int amount = 0;
     int xpos;
     int ypos;
+    List<GameObject> players = new List<GameObject>();
     void Start()
     { 
         ppl = PlayerPrefs.GetInt("partymembers");
         Debug.Log(ppl);
         StartCoroutine(PlayerSpawn());
+
     }
 
     // Update is called once per frame
@@ -34,7 +36,7 @@ public class BattleStart : MonoBehaviour
         {
             xpos = Random.Range(1, 10);
             ypos = Random.Range(1, 10);
-            Instantiate(partyMember, new Vector3(xpos, ypos), Quaternion.identity);
+            players.Add(Instantiate(partyMember, new Vector3(xpos, ypos), Quaternion.identity));
             amount++;
             yield return new WaitForSeconds(0);
 

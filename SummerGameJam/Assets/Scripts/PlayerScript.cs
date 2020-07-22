@@ -28,7 +28,7 @@ public class PlayerScript : MonoBehaviour
     public int maxStamina;
     public int battleSpeed;
 
-    public int partymembers = 3;
+    public int partymembers = 4;
     // Start is called before the first frame update
     void Start()
     {
