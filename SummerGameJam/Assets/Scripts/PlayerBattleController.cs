@@ -8,21 +8,28 @@ using UnityEngine.UIElements;
 
 public class PlayerBattleController : MonoBehaviour
 {
-    int speed = 600;
-    int moved = 0;
+    public int speed = 6;
+    public int moved = 0;
+    public int dmg   = 10;
+    public int hp    = 100;
+    public bool isTurn = true;
+    public bool isEnemyTurn = false;
+    public bool attacked = false;
 
     public bool enemyAdj = false;
 
     public Text moveText;
     public Text alert;
+    public Text hpText;
 
     public List<string> enemyDirections = new List<string>();
-
     public List<GameObject> enemies = new List<GameObject>();
+    public List<GameObject> adjEnemies = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
+        isTurn = true;
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("enemy"))
         {
             enemies.Add(obj);
@@ -33,10 +40,29 @@ public class PlayerBattleController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (moved < speed)
-            Movement();
         DetectObjects();
-        UpdateUI();
+        if (isTurn)
+        {
+            if (moved < speed)
+                Movement();
+            
+            if (!attacked)
+                Attack();
+            UpdateUI();
+            if (Input.GetKeyDown(KeyCode.Return))
+                StartCoroutine(EndTurn());
+        }
+    }
+
+    
+    IEnumerator EndTurn()
+    {
+        isTurn = false;
+        isEnemyTurn = true;
+        yield return new WaitUntil(() => !isEnemyTurn);
+        moved = 0;
+        attacked = false;
+        isTurn = true;
     }
 
     void Movement()
@@ -79,15 +105,17 @@ public class PlayerBattleController : MonoBehaviour
     {
         moveText.text = "Movement left: " + (speed - moved);
         alert.enabled = enemyAdj;
+        hpText.text = "HP: " + hp;
     }
 
-    void DetectObjects()
+    public void DetectObjects()
     {
         foreach (GameObject e in enemies)
         {
             if ((e.transform.position.x + 1 == gameObject.transform.position.x || e.transform.position.x - 1 == gameObject.transform.position.x) && (e.transform.position.y == gameObject.transform.position.y))
             {
                 enemyAdj = true;
+                
             }
             else if (e.transform.position.x == gameObject.transform.position.x && (e.transform.position.y + 1 == gameObject.transform.position.y || e.transform.position.y - 1 == gameObject.transform.position.y))
             {
@@ -99,9 +127,13 @@ public class PlayerBattleController : MonoBehaviour
             }
             if (enemyAdj)
             {
+                if (!adjEnemies.Contains(e))
+                    adjEnemies.Add(e);
+
                 if (gameObject.transform.position.y > e.transform.position.y)
                 {
-                    enemyDirections.Add("D");
+                    if (!enemyDirections.Contains("D"))
+                        enemyDirections.Add("D");
                 }
                 else if (enemyDirections.Contains("D"))
                 {
@@ -110,7 +142,8 @@ public class PlayerBattleController : MonoBehaviour
 
                 if (gameObject.transform.position.y < e.transform.position.y)
                 {
-                    enemyDirections.Add("U");
+                    if (!enemyDirections.Contains("U"))
+                        enemyDirections.Add("U");
                 }
                 else if (enemyDirections.Contains("U"))
                 {
@@ -119,7 +152,8 @@ public class PlayerBattleController : MonoBehaviour
 
                 if (gameObject.transform.position.x > e.transform.position.x)
                 {
-                    enemyDirections.Add("L");
+                    if (!enemyDirections.Contains("L"))
+                        enemyDirections.Add("L");
                 }
                 else if (enemyDirections.Contains("L"))
                 {
@@ -128,16 +162,38 @@ public class PlayerBattleController : MonoBehaviour
 
                 if (gameObject.transform.position.x < e.transform.position.x)
                 {
-                    enemyDirections.Add("R");
+                    if (!enemyDirections.Contains("R"))
+                        enemyDirections.Add("R");
                 }
                 else if (enemyDirections.Contains("R"))
                 {
                     enemyDirections.Remove("R");
                 }
             }
-            else
+            
+        }
+        if (!enemyAdj)
+        {
+            enemyDirections.Clear();
+            adjEnemies.Clear();
+        }
+
+                
+    }
+
+    void Attack()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (enemyAdj)
             {
-                enemyDirections.Clear();
+                foreach (GameObject e in adjEnemies)
+                {
+                    e.GetComponent<EnemyBattleScript>().health -= dmg;
+                    attacked = true;
+                    Debug.Log(e.GetComponent<EnemyBattleScript>().health);
+                }
+                
             }
         }
     }
