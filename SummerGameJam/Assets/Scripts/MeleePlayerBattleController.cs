@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class PlayerBattleController : MonoBehaviour
+public class MeleePlayerBattleController : MonoBehaviour
 {
     public int speed = 6;
     public int moved = 0;

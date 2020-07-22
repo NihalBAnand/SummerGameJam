@@ -9,12 +9,12 @@ public class EnemyBattleScript : MonoBehaviour
     public int dmg    = 10;
     public int speed  = 4;
     public int moved  = 0;
-    public PlayerBattleController player;
+    public MeleePlayerBattleController player;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("player").GetComponent<PlayerBattleController>();
+        player = GameObject.FindGameObjectWithTag("player").GetComponent<MeleePlayerBattleController>();
     }
 
     // Update is called once per frame
