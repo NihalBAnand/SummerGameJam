@@ -11,7 +11,7 @@ public class EnemyBattleScript : MonoBehaviour
     public int moved  = 0;
     public MeleePlayerBattleController player;
 
-    // Start is called before the first frame update
+    // Start is called before the first frame update d
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("player").GetComponent<MeleePlayerBattleController>();
