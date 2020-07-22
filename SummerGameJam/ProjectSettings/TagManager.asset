@@ -8,6 +8,7 @@ TagManager:
   - door
   - enemy
   - player
+  - Moves
   layers:
   - Default
   - TransparentFX
