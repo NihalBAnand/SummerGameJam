@@ -27,8 +27,6 @@ public class PlayerScript : MonoBehaviour
     public int maxMana;
     public int maxStamina;
     public int battleSpeed;
-
-    public int partymembers = 4;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,14 +36,6 @@ public class PlayerScript : MonoBehaviour
         space.enabled = false;
         textBox.enabled = false;
         text.enabled = false;
-
-        health = GlobalController.pHealth;
-        mana = GlobalController.pMana;
-        stamina = GlobalController.pStamina;
-        maxHealth = GlobalController.pMaxHealth;
-        maxMana = GlobalController.pMaxMana;
-        maxStamina = GlobalController.pMaxStamina;
-        battleSpeed = GlobalController.speed;
     }
 
     // Update is called once per frame
@@ -131,11 +121,6 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
             Debug.Log(health);
     }
-    void OnDisable()
-    {
-        PlayerPrefs.SetInt("partymembers", partymembers);
-
-    }
 
     void FixedUpdate()
     {
@@ -173,10 +158,6 @@ public class PlayerScript : MonoBehaviour
         }
 
         //debug for static data
-        if (collision.collider.tag == "enemy")
-        {
-            health -= 10;
-            GlobalController.pHealth -= 10;
-        }
+       
     }
 }

@@ -30,6 +30,8 @@ public class MeleePlayerBattleController : MonoBehaviour
     void Start()
     {
         moveText = GameObject.FindGameObjectWithTag("Moves").GetComponent<Text>();
+        alert = GameObject.FindGameObjectWithTag("alert").GetComponent<Text>();
+        hpText = GameObject.FindGameObjectWithTag("hp").GetComponent<Text>();
         isTurn = true;
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("enemy"))
         {

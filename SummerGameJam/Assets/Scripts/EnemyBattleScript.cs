@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyBattleScript : MonoBehaviour
 {
@@ -10,11 +13,15 @@ public class EnemyBattleScript : MonoBehaviour
     public int speed  = 4;
     public int moved  = 0;
     public MeleePlayerBattleController player;
+    public MeleePlayerBattleController Activeplayer;
+    public BattleStart battleStart;
+
 
     // Start is called before the first frame update d
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("player").GetComponent<MeleePlayerBattleController>();
+        battleStart = GameObject.Find("BattleStart").GetComponent<BattleStart>();
+        Activeplayer = battleStart.players[0].GetComponent<MeleePlayerBattleController>();
     }
 
     // Update is called once per frame
@@ -24,11 +31,11 @@ public class EnemyBattleScript : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if (player.isEnemyTurn)
+        if (Activeplayer.isEnemyTurn)
         {
             moved = 0;
             StartCoroutine(Move());
-            player.isEnemyTurn = false;
+            Activeplayer.isEnemyTurn = false;
 
         }
         
@@ -36,6 +43,7 @@ public class EnemyBattleScript : MonoBehaviour
 
     IEnumerator Move()
     {
+        player = battleStart.players[Random.Range(0, battleStart.players.Count)].GetComponent<MeleePlayerBattleController>();
         while (!player.adjEnemies.Contains(gameObject) && moved < speed)
         {
             Debug.Log("TEST");

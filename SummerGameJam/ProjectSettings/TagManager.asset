@@ -9,6 +9,8 @@ TagManager:
   - enemy
   - player
   - Moves
+  - alert
+  - hp
   layers:
   - Default
   - TransparentFX

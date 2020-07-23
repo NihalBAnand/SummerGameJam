@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 86095120}
   m_Layer: 5
   m_Name: HP
-  m_TagString: Untagged
+  m_TagString: hp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 1067956806}
   m_Layer: 5
   m_Name: Alert
-  m_TagString: Untagged
+  m_TagString: alert
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -369,7 +369,7 @@ GameObject:
   - component: {fileID: 2019453579}
   - component: {fileID: 2019453578}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: BattleStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -389,6 +389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partyMember: {fileID: 7517100502189430528, guid: f84a74734327d1f44a6d7a6f94d8bdda,
     type: 3}
+  players: []
 --- !u!4 &2019453579
 Transform:
   m_ObjectHideFlags: 0
@@ -518,6 +519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partyMember: {fileID: 0}
+  players: []
 --- !u!1 &2043813402
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,6 +619,8 @@ MonoBehaviour:
   speed: 4
   moved: 0
   player: {fileID: 0}
+  Activeplayer: {fileID: 0}
+  battleStart: {fileID: 0}
 --- !u!1 &2120324333
 GameObject:
   m_ObjectHideFlags: 0
