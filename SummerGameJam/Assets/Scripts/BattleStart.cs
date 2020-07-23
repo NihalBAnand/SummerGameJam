@@ -10,6 +10,7 @@ public class BattleStart : MonoBehaviour
     // Start is called before the first frame update
     public GameObject partyMember;
     public GameObject enemie;
+    GameObject temp;
     public int enemies;
     public int ppl;
     int amount = 0;
@@ -66,7 +67,8 @@ public class BattleStart : MonoBehaviour
         {
             xpos = Random.Range(-5, 0);
             ypos = Random.Range(-5, 0);
-            players.Add(Instantiate(partyMember, new Vector3(xpos, ypos), Quaternion.identity));
+            temp = Instantiate(partyMember, new Vector3(xpos, ypos), Quaternion.identity);
+            players.Add(temp);
             amount++;
 
         }
