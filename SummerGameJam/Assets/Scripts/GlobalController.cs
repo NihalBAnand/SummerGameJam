@@ -7,6 +7,8 @@ public class GlobalController : MonoBehaviour
     public static GlobalController i;
     public static int partymembers;
     public static int turn;
+    public static int enemies;
+
     void Awake()
     {
         if (!i)
@@ -17,6 +19,7 @@ public class GlobalController : MonoBehaviour
         else
             Destroy(gameObject);
         partymembers = 6;
+        enemies = 2;
         turn = 0;
     }
     

@@ -12,6 +12,7 @@ public class EnemyBattleScript : MonoBehaviour
     public int dmg    = 10;
     public int speed  = 4;
     public int moved  = 0;
+    public bool isTurn = false;
     public MeleePlayerBattleController player;
     public MeleePlayerBattleController Activeplayer;
     public BattleStart battleStart;
@@ -31,15 +32,15 @@ public class EnemyBattleScript : MonoBehaviour
         {
             Destroy(gameObject);
         }
-/*
-        if (Activeplayer.isEnemyTurn)
+
+        if (isTurn)
         {
             moved = 0;
             StartCoroutine(Move());
-            Activeplayer.isEnemyTurn = false;
+            
 
         }
-        */
+        
     }
 
     IEnumerator Move()
@@ -78,12 +79,13 @@ public class EnemyBattleScript : MonoBehaviour
             {
                 break;
             }
+
         }
         if (player.adjEnemies.Contains(gameObject))
         {
             player.hp -= dmg;
         }
-        
+        GlobalController.turn += 1;
 
     }
 }
