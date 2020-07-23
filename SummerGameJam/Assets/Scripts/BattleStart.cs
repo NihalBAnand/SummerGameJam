@@ -16,7 +16,7 @@ public class BattleStart : MonoBehaviour
     int amount = 0;
     int xpos;
     int ypos;
-    int turn;
+    public int turn;
     public List<GameObject> players = new List<GameObject>();
   
     void Start()
@@ -45,7 +45,7 @@ public class BattleStart : MonoBehaviour
         while (amount < enemies)
         {
             xpos = Random.Range(-5, 0);
-            ypos = Random.Range(-5, 10);
+            ypos = Random.Range(-5, 0);
             players.Add(Instantiate(enemie, new Vector3(xpos, ypos), Quaternion.identity));
             amount++;
 
@@ -75,7 +75,7 @@ public class BattleStart : MonoBehaviour
     }
     void handleTurn()
     {
-        if (GlobalController.turn == players.Count)
+        if (GlobalController.turn >= players.Count)
         {
             GlobalController.turn = 0;
 
