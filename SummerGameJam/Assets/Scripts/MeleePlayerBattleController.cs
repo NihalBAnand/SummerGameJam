@@ -17,7 +17,9 @@ public class MeleePlayerBattleController : MonoBehaviour
     public bool attacked = false;
 
     public bool enemyAdj = false;
+    public bool playerAdj = false;
 
+    public string type = "melee";
 
     public Text moveText;
     public Text alert;
@@ -26,6 +28,8 @@ public class MeleePlayerBattleController : MonoBehaviour
     public List<string> enemyDirections = new List<string>();
     public List<GameObject> enemies = new List<GameObject>();
     public List<GameObject> adjEnemies = new List<GameObject>();
+    public List<GameObject> players = new List<GameObject>();
+    public List<GameObject> adjPlayers = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +41,10 @@ public class MeleePlayerBattleController : MonoBehaviour
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("enemy"))
         {
             enemies.Add(obj);
+        }
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("player"))
+        {
+            players.Add(obj);
         }
         alert.enabled = false;
     }
@@ -188,10 +196,80 @@ public class MeleePlayerBattleController : MonoBehaviour
             }
             
         }
+
+        foreach (GameObject e in players)
+        {
+            if (e == null)
+                players.Remove(e);
+
+            if ((e.transform.position.x + 1 == gameObject.transform.position.x || e.transform.position.x - 1 == gameObject.transform.position.x) && (e.transform.position.y == gameObject.transform.position.y))
+            {
+                playerAdj = true;
+
+            }
+            else if (e.transform.position.x == gameObject.transform.position.x && (e.transform.position.y + 1 == gameObject.transform.position.y || e.transform.position.y - 1 == gameObject.transform.position.y))
+            {
+                playerAdj = true;
+            }
+            else
+            {
+                playerAdj = false;
+            }
+            if (playerAdj)
+            {
+                if (!adjPlayers.Contains(e))
+                    adjPlayers.Add(e);
+
+                if (gameObject.transform.position.y > e.transform.position.y)
+                {
+                    if (!enemyDirections.Contains("D"))
+                        enemyDirections.Add("D");
+                }
+                else if (enemyDirections.Contains("D"))
+                {
+                    enemyDirections.Remove("D");
+                }
+
+                if (gameObject.transform.position.y < e.transform.position.y)
+                {
+                    if (!enemyDirections.Contains("U"))
+                        enemyDirections.Add("U");
+                }
+                else if (enemyDirections.Contains("U"))
+                {
+                    enemyDirections.Remove("U");
+                }
+
+                if (gameObject.transform.position.x > e.transform.position.x)
+                {
+                    if (!enemyDirections.Contains("L"))
+                        enemyDirections.Add("L");
+                }
+                else if (enemyDirections.Contains("L"))
+                {
+                    enemyDirections.Remove("L");
+                }
+
+                if (gameObject.transform.position.x < e.transform.position.x)
+                {
+                    if (!enemyDirections.Contains("R"))
+                        enemyDirections.Add("R");
+                }
+                else if (enemyDirections.Contains("R"))
+                {
+                    enemyDirections.Remove("R");
+                }
+            }
+
+        }
         if (!enemyAdj)
         {
             enemyDirections.Clear();
             adjEnemies.Clear();
+        }
+        if (!playerAdj)
+        {
+            adjPlayers.Clear();
         }
 
                 

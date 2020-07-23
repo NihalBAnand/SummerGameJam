@@ -49,6 +49,10 @@ public class BattleStart : MonoBehaviour
             amount++;
 
         }
+        foreach (GameObject e in players)
+        {
+            e.tag = "player";
+        }
     }
 
     // Update is called once per frame
@@ -77,21 +81,21 @@ public class BattleStart : MonoBehaviour
         else if (GlobalController.turn > turn || GlobalController.turn < turn)
         {
             Debug.Log(GlobalController.turn);
-            try
+            if (players[turn].GetComponent<MeleePlayerBattleController>() != null)
             {
                 players[turn].GetComponent<MeleePlayerBattleController>().isTurn = false;
             }
-            catch (Exception)
+            else
             {
                 players[turn].GetComponent<EnemyBattleScript>().isTurn = false;
                 
             }
-            try
+            if (players[GlobalController.turn].GetComponent<MeleePlayerBattleController>() != null)
             {
                 players[GlobalController.turn].GetComponent<MeleePlayerBattleController>().isTurn = true;
 
             }
-            catch (Exception)
+            else
             {
 
                 players[GlobalController.turn].GetComponent<EnemyBattleScript>().isTurn = true;

@@ -23,6 +23,7 @@ public class EnemyBattleScript : MonoBehaviour
     {
         battleStart = GameObject.Find("BattleStart").GetComponent<BattleStart>();
         Activeplayer = battleStart.players[0].GetComponent<MeleePlayerBattleController>();
+        speed = 4;
     }
 
     // Update is called once per frame
