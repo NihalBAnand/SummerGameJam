@@ -31,6 +31,7 @@ public class EnemyBattleScript : MonoBehaviour
         {
             Destroy(gameObject);
         }
+/*
         if (Activeplayer.isEnemyTurn)
         {
             moved = 0;
@@ -38,7 +39,7 @@ public class EnemyBattleScript : MonoBehaviour
             Activeplayer.isEnemyTurn = false;
 
         }
-        
+        */
     }
 
     IEnumerator Move()

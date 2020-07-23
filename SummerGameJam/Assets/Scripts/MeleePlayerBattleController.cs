@@ -12,11 +12,12 @@ public class MeleePlayerBattleController : MonoBehaviour
     public int moved = 0;
     public int dmg   = 10;
     public int hp    = 100;
-    public bool isTurn = true;
+    public bool isTurn = false;
     public bool isEnemyTurn = false;
     public bool attacked = false;
 
     public bool enemyAdj = false;
+
 
     public Text moveText;
     public Text alert;
@@ -29,10 +30,10 @@ public class MeleePlayerBattleController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         moveText = GameObject.FindGameObjectWithTag("Moves").GetComponent<Text>();
         alert = GameObject.FindGameObjectWithTag("alert").GetComponent<Text>();
         hpText = GameObject.FindGameObjectWithTag("hp").GetComponent<Text>();
-        isTurn = true;
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("enemy"))
         {
             enemies.Add(obj);
@@ -53,7 +54,7 @@ public class MeleePlayerBattleController : MonoBehaviour
                 Attack();
             UpdateUI();
             if (Input.GetKeyDown(KeyCode.Return))
-                StartCoroutine(EndTurn());
+                EndTurn();
         }
         if (enemies.Count <= 0)
         {
@@ -61,16 +62,21 @@ public class MeleePlayerBattleController : MonoBehaviour
         }
     }
 
-    
-    IEnumerator EndTurn()
+    public void EndTurn()
     {
-        isTurn = false;
-        isEnemyTurn = true;
-        yield return new WaitUntil(() => !isEnemyTurn);
-        moved = 0;
-        attacked = false;
-        isTurn = true;
+        GlobalController.turn += 1;
     }
+
+
+    /*    IEnumerator EndTurn()
+        {
+            isTurn = false;
+            isEnemyTurn = true;
+            yield return new WaitUntil(() => !isEnemyTurn);
+            moved = 0;
+            attacked = false;
+            isTurn = true;
+        }*/
 
     void Movement()
     {
