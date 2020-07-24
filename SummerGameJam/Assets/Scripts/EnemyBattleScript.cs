@@ -16,7 +16,6 @@ public class EnemyBattleScript : MonoBehaviour
     public MeleePlayerBattleController player;
     public MeleePlayerBattleController Activeplayer;
     public BattleStart battleStart;
-    private GameObject temp;
 
 
     // Start is called before the first frame update d
@@ -37,6 +36,7 @@ public class EnemyBattleScript : MonoBehaviour
 
         if (isTurn)
         {
+            moved = 0;
             StartCoroutine(Move());
             
 
@@ -46,48 +46,35 @@ public class EnemyBattleScript : MonoBehaviour
 
     IEnumerator Move()
     {
-        
-        while (true)
-        {
-            player = battleStart.players[Random.Range(0, battleStart.players.Count - 1)].GetComponent<MeleePlayerBattleController>();
-            if (player != null)
-            {
-                break;
-            }
-        }
-        Debug.Log(player);
-        while ((!player.adjEnemies.Contains(gameObject)) && moved < speed)
+        player = battleStart.players[Random.Range(0, battleStart.players.Count)].GetComponent<MeleePlayerBattleController>();
+        while (!player.adjEnemies.Contains(gameObject) && moved < speed)
         {
             Debug.Log("TEST");
-            //yield return new WaitForSeconds(.5f);
-            yield return new WaitForEndOfFrame();
             if (gameObject.transform.position.x < player.gameObject.transform.position.x)
             {
-                
                 gameObject.transform.position = new Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y);
                 moved++;
-                
+                yield return new WaitForSeconds(.5f);
                 Debug.Log("RIGHT!");
             }
             else if (gameObject.transform.position.x > player.gameObject.transform.position.x)
             {
-                
                 gameObject.transform.position = new Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y);
                 moved++;
-                
+                yield return new WaitForSeconds(.5f);
             }
             else if (gameObject.transform.position.y < player.gameObject.transform.position.y)
             {
                 gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1);
                 moved++;
-                
+                yield return new WaitForSeconds(.5f);
                 Debug.Log("UP!");
             }
             else if (gameObject.transform.position.y > player.gameObject.transform.position.y)
             {
                 gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 1);
                 moved++;
-                
+                yield return new WaitForSeconds(.5f);
             }
             else
             {
@@ -95,14 +82,11 @@ public class EnemyBattleScript : MonoBehaviour
             }
 
         }
-        
         if (player.adjEnemies.Contains(gameObject))
         {
             player.hp -= dmg;
         }
-        
         GlobalController.turn += 1;
-        moved = 0;
 
     }
 }
