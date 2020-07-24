@@ -11,6 +11,8 @@ public class BattleStart : MonoBehaviour
     public GameObject partyMember;
 
     public GameObject enemy;
+
+    public GameObject enemie;
     GameObject temp;
     public int enemies;
     public int ppl;
@@ -49,6 +51,8 @@ public class BattleStart : MonoBehaviour
 
             ypos = Random.Range(-5, 10);
             players.Add(Instantiate(enemy, new Vector3(xpos, ypos), Quaternion.identity));
+            ypos = Random.Range(-5, 0);
+            players.Add(Instantiate(enemie, new Vector3(xpos, ypos), Quaternion.identity));
             amount++;
 
         }

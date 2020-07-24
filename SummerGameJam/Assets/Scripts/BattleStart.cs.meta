@@ -6,7 +6,6 @@ MonoImporter:
   defaultReferences:
   - partyMember: {fileID: 7517100502189430528, guid: f84a74734327d1f44a6d7a6f94d8bdda,
       type: 3}
-  - enemy: {fileID: 3699502839044568885, guid: 391180309882cd64db64227cacb97b60, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
