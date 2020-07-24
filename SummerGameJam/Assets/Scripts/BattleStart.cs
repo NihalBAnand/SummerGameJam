@@ -10,6 +10,7 @@ public class BattleStart : MonoBehaviour
     // Start is called before the first frame update
     public GameObject partyMember;
 
+
     public GameObject enemy;
     GameObject temp;
 
