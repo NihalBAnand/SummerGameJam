@@ -1,3 +1,0 @@
-# SummerGameJam
-Test
-No u
