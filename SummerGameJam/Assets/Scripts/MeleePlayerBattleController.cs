@@ -154,48 +154,48 @@ public class MeleePlayerBattleController : MonoBehaviour
                     adjEnemies.Add(e);
             }
 
-                if (gameObject.transform.position.y - 1 == e.transform.position.y && gameObject.transform.position.x == e.transform.position.x)
-                {
-                    if (!enemyDirections.Contains("D"))
+            if (gameObject.transform.position.y - 1 == e.transform.position.y && gameObject.transform.position.x == e.transform.position.x)
+            {
+                if (!enemyDirections.Contains("D"))
                         enemyDirections.Add("D");
-                }
-                else if (enemyDirections.Contains("D"))
-                {
-                    enemyDirections.Remove("D");
-                }
+            }
+            else if (enemyDirections.Contains("D"))
+            {
+                enemyDirections.Remove("D");
+            }
                 
 
-                if (gameObject.transform.position.y + 1 == e.transform.position.y && gameObject.transform.position.x == e.transform.position.x)
-                {
-                    if (!enemyDirections.Contains("U"))
+            if (gameObject.transform.position.y + 1 == e.transform.position.y && gameObject.transform.position.x == e.transform.position.x)
+            {
+                if (!enemyDirections.Contains("U"))
                         enemyDirections.Add("U");
-                }
-                else if (enemyDirections.Contains("U"))
-                {
-                    enemyDirections.Remove("U");
-                }
+            }
+            else if (enemyDirections.Contains("U"))
+            {
+                enemyDirections.Remove("U");
+            }
                 
 
-                if (gameObject.transform.position.x - 1 == e.transform.position.x && gameObject.transform.position.y == e.transform.position.y)
-                {
-                    if (!enemyDirections.Contains("L"))
+            if (gameObject.transform.position.x - 1 == e.transform.position.x && gameObject.transform.position.y == e.transform.position.y)
+            {
+                if (!enemyDirections.Contains("L"))
                         enemyDirections.Add("L");
-                }
-                else if (enemyDirections.Contains("L"))
-                {
-                    enemyDirections.Remove("L");
-                }
+            }
+            else if (enemyDirections.Contains("L"))
+            {
+                enemyDirections.Remove("L");
+            }
                 
 
-                if (gameObject.transform.position.x + 1 == e.transform.position.x && gameObject.transform.position.y == e.transform.position.y)
-                {
-                    if (!enemyDirections.Contains("R"))
-                        enemyDirections.Add("R");
-                }
-                else if (enemyDirections.Contains("R"))
-                {
-                    enemyDirections.Remove("R");
-                }
+            if (gameObject.transform.position.x + 1 == e.transform.position.x && gameObject.transform.position.y == e.transform.position.y)
+            {
+                if (!enemyDirections.Contains("R"))
+                    enemyDirections.Add("R");
+            }
+            else if (enemyDirections.Contains("R"))
+            {
+                enemyDirections.Remove("R");
+            }
                 
             
             
@@ -225,8 +225,9 @@ public class MeleePlayerBattleController : MonoBehaviour
             {
                 if (!adjPlayers.Contains(e))
                     adjPlayers.Add(e);
+            }
 
-                if (gameObject.transform.position.y - 1 == e.transform.position.y && gameObject.transform.position.x == e.transform.position.x)
+                if (gameObject.transform.position.y - 1 == e.transform.position.y && gameObject.transform.position.x == e.transform.position.x && playerAdj)
                 {
                     if (!enemyDirections.Contains("D"))
                         enemyDirections.Add("D");
@@ -237,7 +238,7 @@ public class MeleePlayerBattleController : MonoBehaviour
                 }
                 
 
-                if (gameObject.transform.position.y + 1 == e.transform.position.y && gameObject.transform.position.x == e.transform.position.x)
+                if (gameObject.transform.position.y + 1 == e.transform.position.y && gameObject.transform.position.x == e.transform.position.x && playerAdj)
                 {
                     if (!enemyDirections.Contains("U"))
                         enemyDirections.Add("U");
@@ -247,7 +248,7 @@ public class MeleePlayerBattleController : MonoBehaviour
                     enemyDirections.Remove("U");
                 }
                 
-                if (gameObject.transform.position.x - 1 == e.transform.position.x && gameObject.transform.position.y == e.transform.position.y)
+                if (gameObject.transform.position.x - 1 == e.transform.position.x && gameObject.transform.position.y == e.transform.position.y && playerAdj)
                 {
                     if (!enemyDirections.Contains("L"))
                         enemyDirections.Add("L");
@@ -258,7 +259,7 @@ public class MeleePlayerBattleController : MonoBehaviour
                 }
                 
 
-                if (gameObject.transform.position.x + 1 == e.transform.position.x && gameObject.transform.position.y == e.transform.position.y)
+                if (gameObject.transform.position.x + 1 == e.transform.position.x && gameObject.transform.position.y == e.transform.position.y && playerAdj)
                 {
                     if (!enemyDirections.Contains("R"))
                         enemyDirections.Add("R");
@@ -266,13 +267,14 @@ public class MeleePlayerBattleController : MonoBehaviour
                 else if (enemyDirections.Contains("R"))
                 {
                     enemyDirections.Remove("R");
+                    //Debug.Log("FSD:FJOSHDFPIUEFPISDJKLFEN:F");
                 }
                 
-            }
+            
 
         }
-        
 
+        
                 
     }
 
