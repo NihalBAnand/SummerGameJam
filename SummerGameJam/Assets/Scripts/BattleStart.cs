@@ -48,8 +48,13 @@ public class BattleStart : MonoBehaviour
         amount = 0;
         while (amount < enemies)
         {
-            xpos = Random.Range(-5, 0)
-            ypos = Random.Range(-5, 0);
+            xpos = Random.Range(-5, 0);
+
+
+            ypos = Random.Range(-5, 10);
+
+            players.Add(Instantiate(enemy, new Vector3(xpos, ypos), Quaternion.identity));
+            ypos = Random.Range(-5, 10);
             players.Add(Instantiate(enemie, new Vector3(xpos, ypos), Quaternion.identity));
 
             amount++;
