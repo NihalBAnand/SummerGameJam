@@ -54,6 +54,7 @@ public class BattleStart : MonoBehaviour
             ypos = Random.Range(-5, 10);
 
             players.Add(Instantiate(enemy, new Vector3(xpos, ypos), Quaternion.identity));
+
             ypos = Random.Range(-5, 10);
             players.Add(Instantiate(enemie, new Vector3(xpos, ypos), Quaternion.identity));
 
