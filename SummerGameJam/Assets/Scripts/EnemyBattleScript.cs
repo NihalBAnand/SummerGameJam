@@ -16,6 +16,7 @@ public class EnemyBattleScript : MonoBehaviour
     public MeleePlayerBattleController player;
     public MeleePlayerBattleController Activeplayer;
     public BattleStart battleStart;
+    private GameObject temp;
 
 
     // Start is called before the first frame update d
@@ -46,7 +47,16 @@ public class EnemyBattleScript : MonoBehaviour
 
     IEnumerator Move()
     {
-        player = battleStart.players[Random.Range(0, battleStart.players.Count)].GetComponent<MeleePlayerBattleController>();
+        while (true)
+        {
+            temp = battleStart.players[Random.Range(0, battleStart.players.Count - 1)];
+            if (temp.GetComponent<MeleePlayerBattleController>() != null)
+            {
+                player = battleStart.players[Random.Range(0, battleStart.players.Count - 1)].GetComponent<MeleePlayerBattleController>();
+                break;
+            }
+        }
+        Debug.Log(player);
         while (!player.adjEnemies.Contains(gameObject) && moved < speed)
         {
             Debug.Log("TEST");
