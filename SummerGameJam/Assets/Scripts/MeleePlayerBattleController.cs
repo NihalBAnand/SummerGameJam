@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+
 
 public class MeleePlayerBattleController : MonoBehaviour
 {
@@ -15,6 +18,9 @@ public class MeleePlayerBattleController : MonoBehaviour
     public bool isTurn = false;
     public bool isEnemyTurn = false;
     public bool attacked = false;
+    public bool inZone = true;
+
+    public Collider2D colidepos;
 
     public bool enemyAdj = false;
     public bool playerAdj = false;
@@ -34,7 +40,7 @@ public class MeleePlayerBattleController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        inZone = false;
         moveText = GameObject.FindGameObjectWithTag("Moves").GetComponent<Text>();
         alert = GameObject.FindGameObjectWithTag("alert").GetComponent<Text>();
         hpText = GameObject.FindGameObjectWithTag("hp").GetComponent<Text>();
@@ -52,17 +58,24 @@ public class MeleePlayerBattleController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DetectObjects();
+        //DetectObjects();
         if (isTurn)
         {
-            if (moved < speed)
+            if (moved < speed && inZone == false )
                 Movement();
+            else if(moved < speed)
+            {
+                Movement();
+                enemyDirections.Add(col(colidepos));
+                enemyDirections.Remove("none");
+            }
             
             if (!attacked)
                 Attack();
             UpdateUI();
             if (Input.GetKeyDown(KeyCode.Return))
                 EndTurn();
+
         }
         
     }
@@ -89,7 +102,7 @@ public class MeleePlayerBattleController : MonoBehaviour
         {
             if (!enemyDirections.Contains("L"))
             {
-                gameObject.transform.position = new Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y);
+                gameObject.transform.position = new UnityEngine.Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y);
                 moved++;
             }
         }
@@ -97,7 +110,7 @@ public class MeleePlayerBattleController : MonoBehaviour
         {
             if (!enemyDirections.Contains("R"))
             {
-                gameObject.transform.position = new Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y);
+                gameObject.transform.position = new UnityEngine.Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y);
                 moved++;
             }
         }
@@ -105,7 +118,7 @@ public class MeleePlayerBattleController : MonoBehaviour
         {
             if (!enemyDirections.Contains("U"))
             {
-                gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1);
+                gameObject.transform.position = new UnityEngine.Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1);
                 moved++;
             }
         }
@@ -113,7 +126,7 @@ public class MeleePlayerBattleController : MonoBehaviour
         {
             if (!enemyDirections.Contains("D"))
             {
-                gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 1);
+                gameObject.transform.position = new UnityEngine.Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 1);
                 moved++;
             }
         }
@@ -126,157 +139,6 @@ public class MeleePlayerBattleController : MonoBehaviour
         hpText.text = "HP: " + hp;
     }
 
-    public void DetectObjects()
-    {
-        foreach (GameObject e in enemies)
-        {
-            if (e == null)
-                enemies.Remove(e);
-
-            if ((e.transform.position.x + 1 == gameObject.transform.position.x || e.transform.position.x - 1 == gameObject.transform.position.x) && (e.transform.position.y == gameObject.transform.position.y))
-            {
-                enemyAdj = true;
-                
-            }
-            else if (e.transform.position.x == gameObject.transform.position.x && (e.transform.position.y + 1 == gameObject.transform.position.y || e.transform.position.y - 1 == gameObject.transform.position.y))
-            {
-                enemyAdj = true;
-            }
-            else
-            {
-                enemyAdj = false;
-                if (adjEnemies.Contains(e))
-                    adjEnemies.Remove(e);
-            }
-            if (enemyAdj)
-            {
-                if (!adjEnemies.Contains(e))
-                    adjEnemies.Add(e);
-            }
-
-            if (gameObject.transform.position.y - 1 == e.transform.position.y && gameObject.transform.position.x == e.transform.position.x)
-            {
-                if (!enemyDirections.Contains("D"))
-                        enemyDirections.Add("D");
-            }
-            else if (enemyDirections.Contains("D"))
-            {
-                enemyDirections.Remove("D");
-            }
-                
-
-            if (gameObject.transform.position.y + 1 == e.transform.position.y && gameObject.transform.position.x == e.transform.position.x)
-            {
-                if (!enemyDirections.Contains("U"))
-                        enemyDirections.Add("U");
-            }
-            else if (enemyDirections.Contains("U"))
-            {
-                enemyDirections.Remove("U");
-            }
-                
-
-            if (gameObject.transform.position.x - 1 == e.transform.position.x && gameObject.transform.position.y == e.transform.position.y)
-            {
-                if (!enemyDirections.Contains("L"))
-                        enemyDirections.Add("L");
-            }
-            else if (enemyDirections.Contains("L"))
-            {
-                enemyDirections.Remove("L");
-            }
-                
-
-            if (gameObject.transform.position.x + 1 == e.transform.position.x && gameObject.transform.position.y == e.transform.position.y)
-            {
-                if (!enemyDirections.Contains("R"))
-                    enemyDirections.Add("R");
-            }
-            else if (enemyDirections.Contains("R"))
-            {
-                enemyDirections.Remove("R");
-            }
-                
-            
-            
-        }
-
-        foreach (GameObject e in players)
-        {
-            if (e == null)
-                players.Remove(e);
-
-            if ((e.transform.position.x + 1 == gameObject.transform.position.x || e.transform.position.x - 1 == gameObject.transform.position.x) && (e.transform.position.y == gameObject.transform.position.y))
-            {
-                playerAdj = true;
-
-            }
-            else if (e.transform.position.x == gameObject.transform.position.x && (e.transform.position.y + 1 == gameObject.transform.position.y || e.transform.position.y - 1 == gameObject.transform.position.y))
-            {
-                playerAdj = true;
-            }
-            else
-            {
-                playerAdj = false;
-                if (adjPlayers.Contains(e))
-                    adjPlayers.Remove(e);
-            }
-            if (playerAdj)
-            {
-                if (!adjPlayers.Contains(e))
-                    adjPlayers.Add(e);
-            }
-
-                if (gameObject.transform.position.y - 1 == e.transform.position.y && gameObject.transform.position.x == e.transform.position.x && playerAdj)
-                {
-                    if (!enemyDirections.Contains("D"))
-                        enemyDirections.Add("D");
-                }
-                else if (enemyDirections.Contains("D"))
-                {
-                    enemyDirections.Remove("D");
-                }
-                
-
-                if (gameObject.transform.position.y + 1 == e.transform.position.y && gameObject.transform.position.x == e.transform.position.x && playerAdj)
-                {
-                    if (!enemyDirections.Contains("U"))
-                        enemyDirections.Add("U");
-                }
-                else if (enemyDirections.Contains("U"))
-                {
-                    enemyDirections.Remove("U");
-                }
-                
-                if (gameObject.transform.position.x - 1 == e.transform.position.x && gameObject.transform.position.y == e.transform.position.y && playerAdj)
-                {
-                    if (!enemyDirections.Contains("L"))
-                        enemyDirections.Add("L");
-                }
-                else if (enemyDirections.Contains("L"))
-                {
-                    enemyDirections.Remove("L");
-                }
-                
-
-                if (gameObject.transform.position.x + 1 == e.transform.position.x && gameObject.transform.position.y == e.transform.position.y && playerAdj)
-                {
-                    if (!enemyDirections.Contains("R"))
-                        enemyDirections.Add("R");
-                }
-                else if (enemyDirections.Contains("R"))
-                {
-                    enemyDirections.Remove("R");
-                    //Debug.Log("FSD:FJOSHDFPIUEFPISDJKLFEN:F");
-                }
-                
-            
-
-        }
-
-        
-                
-    }
 
     void Attack()
     {
@@ -294,4 +156,70 @@ public class MeleePlayerBattleController : MonoBehaviour
             }
         }
     }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        inZone = true;
+        colidepos = collision;
+        enemyDirections.Add(col(collision));
+        enemyDirections.Remove("none");
+            
+            
+      }
+    String col(Collider2D collider)
+    {
+        UnityEngine.Vector3 otherpos = collider.attachedRigidbody.transform.position;
+        UnityEngine.Vector3 myPos = gameObject.transform.position;
+        if (isTurn)
+        {
+            Debug.Log("collide");
+            if (myPos.x > otherpos.x && myPos.y == otherpos.y)
+            {
+                if (!enemyDirections.Contains("L"))
+                    return "L";
+                
+            }
+            else if (enemyDirections.Contains("L"))
+            {
+                enemyDirections.Remove("L");
+            }
+            if (myPos.x < otherpos.x && myPos.y == otherpos.y)
+            {
+                if (!enemyDirections.Contains("R"))
+                    return "R";
+
+            }
+            else if (enemyDirections.Contains("R"))
+            {
+                enemyDirections.Remove("R");
+            }
+            if (myPos.y > otherpos.y && myPos.x == otherpos.x)
+            {
+                if (!enemyDirections.Contains("D"))
+                    return "D";
+            }
+            else if (enemyDirections.Contains("D"))
+            {
+                enemyDirections.Remove("D");
+            }
+
+            if (myPos.y < otherpos.y && myPos.x == otherpos.x)
+            {
+                if (!enemyDirections.Contains("U"))
+                    return "U";
+            }
+            else if (enemyDirections.Contains("U"))
+            {
+                enemyDirections.Remove("U");
+            }
+        }
+        return "none";
+
+    }
+    void OnTriggerExit2D(Collider2D other)
+    {
+        enemyDirections.Clear();
+        inZone= false;
+    }
+
 }

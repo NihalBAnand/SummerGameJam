@@ -392,6 +392,7 @@ MonoBehaviour:
   enemie: {fileID: 3699502839044568885, guid: 391180309882cd64db64227cacb97b60, type: 3}
   enemies: 0
   ppl: 0
+  turn: 0
   players: []
 --- !u!4 &2019453579
 Transform:
