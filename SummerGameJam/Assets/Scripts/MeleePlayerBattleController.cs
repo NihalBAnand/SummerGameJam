@@ -172,7 +172,7 @@ public class MeleePlayerBattleController : MonoBehaviour
         UnityEngine.Vector3 myPos = gameObject.transform.position;
         if (isTurn)
         {
-            Debug.Log("collide");
+          
             if (myPos.x > otherpos.x && myPos.y == otherpos.y)
             {
                 if (!enemyDirections.Contains("L"))

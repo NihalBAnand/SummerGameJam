@@ -248,6 +248,11 @@ PrefabInstance:
       propertyPath: text
       value: 
       objectReference: {fileID: 1885037923}
+    - target: {fileID: 6169196877750621044, guid: 75c2ea740d059c749a508595753514f4,
+        type: 3}
+      propertyPath: rigidbody2D
+      value: 
+      objectReference: {fileID: 805761482}
     - target: {fileID: 6169196877750621047, guid: 75c2ea740d059c749a508595753514f4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -431,6 +436,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &805761482 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 6169196877750621043, guid: 75c2ea740d059c749a508595753514f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 455286178}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1714401777
 GameObject:
   m_ObjectHideFlags: 0

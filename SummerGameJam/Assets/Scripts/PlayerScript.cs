@@ -8,11 +8,10 @@ public class PlayerScript : MonoBehaviour
 {
     private Animator anim;
     private int frame = 0;
-
-    private Rigidbody2D rigidbody2D;
     public float speed = 5f;
     Vector2 movement;
 
+    public Rigidbody2D rigidbody2D;
     public Image space;
     public Image textBox;
     public Text text;
@@ -31,7 +30,7 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         anim = gameObject.GetComponent<Animator>();
-        rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+      
 
         space.enabled = false;
         textBox.enabled = false;
