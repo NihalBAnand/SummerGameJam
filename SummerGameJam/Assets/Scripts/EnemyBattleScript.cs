@@ -82,11 +82,11 @@ public class EnemyBattleScript : MonoBehaviour
     }
     void endTurn()
     {
-        GlobalController.turn += 1;
+       /* GlobalController.turn += 1;
         isTurn = false;
         atEnemy = false;
         moved = 0;
-        selected = false;
+        selected = false;*/
     }
     void Move()
     {
@@ -157,6 +157,7 @@ public class EnemyBattleScript : MonoBehaviour
             }
         }
         xy*=-1;
+        Thread.Sleep(200);
     }
 
 

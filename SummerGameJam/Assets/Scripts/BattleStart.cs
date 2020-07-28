@@ -62,6 +62,7 @@ public class BattleStart : MonoBehaviour
                 {
                     ypos += 1;
                 }
+                posString = xpos.ToString() + "," + ypos.ToString();
                 xy *= -1;
             }
             players.Add(Instantiate(enemie, new Vector3(xpos, ypos), Quaternion.identity));
@@ -97,6 +98,7 @@ public class BattleStart : MonoBehaviour
                 {
                     ypos += 1;
                 }
+                posString = xpos.ToString() + "," + ypos.ToString();
                 xy *= -1;
             }
             temp = Instantiate(partyMember, new Vector3(xpos, ypos), Quaternion.identity);
