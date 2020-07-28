@@ -55,13 +55,13 @@ public class EnemyBattleScript : MonoBehaviour
 
         if (moved >= speed || atEnemy == true)
         {
-            Debug.Log("fasdfsdfdafsad");
             endTurn();
         }
         if (isTurn)
         {
             if (!selected)
             {
+                Debug.Log("Selecting");
                 selectTarget();
             }
             if ((moved < speed || !atEnemy) && inZone == false)
@@ -69,8 +69,10 @@ public class EnemyBattleScript : MonoBehaviour
                 Move();
 
             }
-            else if (moved < speed || !atEnemy)
+            else if (moved < speed && inZone == true)
             {
+                enemyDirections.Add(col(colidepos));
+                enemyDirections.Remove("none");
                 Move();
                 enemyDirections.Add(col(colidepos));
                 enemyDirections.Remove("none");
@@ -82,11 +84,11 @@ public class EnemyBattleScript : MonoBehaviour
     }
     void endTurn()
     {
-       /* GlobalController.turn += 1;
+        GlobalController.turn += 1;
         isTurn = false;
         atEnemy = false;
         moved = 0;
-        selected = false;*/
+        selected = false;
     }
     void Move()
     {
@@ -103,7 +105,7 @@ public class EnemyBattleScript : MonoBehaviour
                 {
                     gameObject.transform.position = new Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y);
                     moved++;
-                    Debug.Log("R");
+                    
                 }
 
                 //Right
@@ -118,7 +120,7 @@ public class EnemyBattleScript : MonoBehaviour
                 {
                     gameObject.transform.position = new Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y);
                     moved++;
-                    Debug.Log("L");
+                  
                 }
 
                 //Left
@@ -136,7 +138,7 @@ public class EnemyBattleScript : MonoBehaviour
                 {
                     gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1);
                     moved++;
-                    Debug.Log("U");
+                    
                 }
                 //up
             }
@@ -150,7 +152,7 @@ public class EnemyBattleScript : MonoBehaviour
                 {
                     gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 1);
                     moved++;
-                    Debug.Log("D");
+                
                 }
 
                 //down
@@ -161,81 +163,25 @@ public class EnemyBattleScript : MonoBehaviour
     }
 
 
-    /*        while (true)
-            {
-                player = battleStart.players[Random.Range(0, battleStart.players.Count - 1)].GetComponent<MeleePlayerBattleController>();
-                if (player != null)
-                {
-                    break;
-                }
-            }
-            Debug.Log(player);
-            while ((!player.adjEnemies.Contains(gameObject)) && moved < speed)
-            {
-                Debug.Log("TEST");
-                yield return new WaitForSeconds(.5f);
-                //yield return new WaitForEndOfFrame();
-                if (gameObject.transform.position.x < player.gameObject.transform.position.x && !enemyDirections.Contains("R"))
-                {
 
-                    gameObject.transform.position = new Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y  );
-                    moved++;
-
-                    Debug.Log("RIGHT!");
-                }
-                else if (gameObject.transform.position.x > player.gameObject.transform.position.x && !enemyDirections.Contains("L"))
-                {
-
-                    gameObject.transform.position = new Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y);
-                    moved++;
-
-                }
-                else if (gameObject.transform.position.y < player.gameObject.transform.position.y && !enemyDirections.Contains("U"))
-                {
-                    gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1);
-                    moved++;
-
-                    Debug.Log("UP!");
-                }
-                else if (gameObject.transform.position.y > player.gameObject.transform.position.y && !enemyDirections.Contains("D"))
-                {
-                    gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 1);
-                    moved++;
-
-                }
-                else
-                {
-                    break;
-                }
-
-            }
-
-            if (player.adjEnemies.Contains(gameObject))
-            {
-                player.hp -= dmg;
-            }
-
-            GlobalController.turn += 1;
-
-*/
 
 
     void selectTarget()
     {
         battleStart = GameObject.Find("BattleStart").GetComponent<BattleStart>();
-        float maxdist = 0;
-        for(int i = 0; i< battleStart.players.Count; i++)
+        
+        float dist = Vector3.Distance(battleStart.players[0].transform.position, gameObject.transform.position);
+        player = battleStart.players[0].transform.position;
+        float mindist =  dist;
+        for (int i = 1; i< battleStart.players.Count; i++)
         {
             if(battleStart.players[i].GetComponent<MeleePlayerBattleController>() != null)
             {
-                float dist = Vector3.Distance(battleStart.players[i].transform.position, gameObject.transform.position);
-                Debug.Log(dist);
-                if (maxdist < dist)
+                dist = Vector3.Distance(battleStart.players[i].transform.position, gameObject.transform.position);
+                if (mindist > dist)
                 {
-                    Debug.Log("kjhdfsahjklfdsahklj");
                     player = battleStart.players[i].transform.position;
-                    Debug.Log(player);
-                    maxdist = dist;
+                    mindist = dist;
                 }
             }
         }

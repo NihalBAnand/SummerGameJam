@@ -31,7 +31,6 @@ public class BattleStart : MonoBehaviour
         Debug.Log(ppl);
         SpawnParty();
         SpawnEnemies();
-        //scramble();
         try
         {
             players[0].GetComponent<MeleePlayerBattleController>().isTurn = true;

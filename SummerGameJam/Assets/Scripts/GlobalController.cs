@@ -18,7 +18,7 @@ public class GlobalController : MonoBehaviour
         }
         else
             Destroy(gameObject);
-        partymembers = 1;
+        partymembers = 2;
         enemies = 1;
         turn = 0;
     }

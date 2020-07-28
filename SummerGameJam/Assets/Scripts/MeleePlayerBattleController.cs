@@ -65,6 +65,8 @@ public class MeleePlayerBattleController : MonoBehaviour
                 Movement();
             else if(moved < speed)
             {
+                enemyDirections.Add(col(colidepos));
+                enemyDirections.Remove("none");
                 Movement();
                 enemyDirections.Add(col(colidepos));
                 enemyDirections.Remove("none");
