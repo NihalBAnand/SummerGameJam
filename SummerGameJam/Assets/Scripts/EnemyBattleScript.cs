@@ -125,6 +125,7 @@ public class EnemyBattleScript : MonoBehaviour
 
                 //Left
             }
+
         }
         else
         {
@@ -159,6 +160,9 @@ public class EnemyBattleScript : MonoBehaviour
             }
         }
         xy*=-1;
+        BoxCollider2D box = GetComponent<BoxCollider2D>(); 
+        box.size = new Vector3(box.size.x -.1f, box.size.y - .1f);
+        box.size = new Vector3(box.size.x +.1f, box.size.y + .1f);
         Thread.Sleep(200);
     }
 
@@ -203,51 +207,50 @@ public class EnemyBattleScript : MonoBehaviour
         UnityEngine.Vector3 otherpos = collider.attachedRigidbody.transform.position;
         UnityEngine.Vector3 myPos = gameObject.transform.position;
         UnityEngine.Vector3 checkPos;
-        if (isTurn)
+
+        checkPos = new Vector3(myPos.x - 1, myPos.y);
+        if (currentCollisions.Contains(checkPos))
         {
-            checkPos = new Vector3(myPos.x - 1, myPos.y);
-            if (currentCollisions.Contains(checkPos))
-            {
-                if (!enemyDirections.Contains("L"))
-                    return "L";
+            if (!enemyDirections.Contains("L"))
+                return "L";
 
-            }
-            else if (enemyDirections.Contains("L"))
-            {
-                enemyDirections.Remove("L");
-            }
-            checkPos = new Vector3(myPos.x + 1, myPos.y);
-            if (currentCollisions.Contains(checkPos))
-            {
-                if (!enemyDirections.Contains("R"))
-                    return "R";
-
-            }
-            else if (enemyDirections.Contains("R"))
-            {
-                enemyDirections.Remove("R");
-            }
-            checkPos = new Vector3(myPos.x , myPos.y -1);
-            if (currentCollisions.Contains(checkPos))
-            {
-                if (!enemyDirections.Contains("D"))
-                    return "D";
-            }
-            else if (enemyDirections.Contains("D"))
-            {
-                enemyDirections.Remove("D");
-            }
-            checkPos = new Vector3(myPos.x , myPos.y+1);
-            if (currentCollisions.Contains(checkPos))
-            {
-                if (!enemyDirections.Contains("U"))
-                    return "U";
-            }
-            else if (enemyDirections.Contains("U"))
-            {
-                enemyDirections.Remove("U");
-            }
         }
+        else if (enemyDirections.Contains("L"))
+        {
+            enemyDirections.Remove("L");
+        }
+        checkPos = new Vector3(myPos.x + 1, myPos.y);
+        if (currentCollisions.Contains(checkPos))
+        {
+            if (!enemyDirections.Contains("R"))
+                return "R";
+
+        }
+        else if (enemyDirections.Contains("R"))
+        {
+            enemyDirections.Remove("R");
+        }
+        checkPos = new Vector3(myPos.x, myPos.y - 1);
+        if (currentCollisions.Contains(checkPos))
+        {
+            if (!enemyDirections.Contains("D"))
+                return "D";
+        }
+        else if (enemyDirections.Contains("D"))
+        {
+            enemyDirections.Remove("D");
+        }
+        checkPos = new Vector3(myPos.x, myPos.y + 1);
+        if (currentCollisions.Contains(checkPos))
+        {
+            if (!enemyDirections.Contains("U"))
+                return "U";
+        }
+        else if (enemyDirections.Contains("U"))
+        {
+            enemyDirections.Remove("U");
+        }
+
         return "none";
 
     }

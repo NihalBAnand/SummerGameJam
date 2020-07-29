@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Xml.Serialization;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.iOS;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using Vector3 = UnityEngine.Vector3;
 
 
 public class MeleePlayerBattleController : MonoBehaviour
@@ -19,6 +22,7 @@ public class MeleePlayerBattleController : MonoBehaviour
     public bool isEnemyTurn = false;
     public bool attacked = false;
     public bool inZone = true;
+    public bool updateCurrent = false;
 
     public Collider2D colidepos;
 
@@ -31,7 +35,8 @@ public class MeleePlayerBattleController : MonoBehaviour
     public Text alert;
     public Text hpText;
 
-    public List<Collider2D> currentCollisions = new List<Collider2D>();
+    public List<GameObject> collidingObj = new List<GameObject>();
+    public List<Vector3> currentCollisions = new List<Vector3>();
     public List<string> enemyDirections = new List<string>();
     public List<GameObject> enemies = new List<GameObject>();
     public List<GameObject> adjEnemies = new List<GameObject>();
@@ -59,6 +64,8 @@ public class MeleePlayerBattleController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        
         //DetectObjects();
         if (isTurn)
         {
@@ -84,6 +91,7 @@ public class MeleePlayerBattleController : MonoBehaviour
     public void EndTurn()
     {
         GlobalController.turn += 1;
+        currentCollisions.Clear();
     }
 
 
@@ -103,7 +111,7 @@ public class MeleePlayerBattleController : MonoBehaviour
         {
             if (!enemyDirections.Contains("L"))
             {
-                gameObject.transform.position = new UnityEngine.Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y);
+                gameObject.transform.position = new Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y);
                 moved++;
             }
         }
@@ -111,7 +119,7 @@ public class MeleePlayerBattleController : MonoBehaviour
         {
             if (!enemyDirections.Contains("R"))
             {
-                gameObject.transform.position = new UnityEngine.Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y);
+                gameObject.transform.position = new Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y);
                 moved++;
             }
         }
@@ -119,7 +127,7 @@ public class MeleePlayerBattleController : MonoBehaviour
         {
             if (!enemyDirections.Contains("U"))
             {
-                gameObject.transform.position = new UnityEngine.Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1);
+                gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1);
                 moved++;
             }
         }
@@ -127,10 +135,13 @@ public class MeleePlayerBattleController : MonoBehaviour
         {
             if (!enemyDirections.Contains("D"))
             {
-                gameObject.transform.position = new UnityEngine.Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 1);
+                gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 1);
                 moved++;
             }
         }
+        BoxCollider2D box = GetComponent<BoxCollider2D>();
+        box.size = new Vector3(box.size.x - .1f, box.size.y - .1f);
+        box.size = new Vector3(box.size.x + .1f, box.size.y + .1f);
     }
 
     void UpdateUI()
@@ -160,7 +171,15 @@ public class MeleePlayerBattleController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        currentCollisions.Add(collision);
+        Debug.Log("col");
+        if (!currentCollisions.Contains(collision.attachedRigidbody.transform.position))
+        {
+            currentCollisions.Add(collision.attachedRigidbody.transform.position);
+        }
+        if (!collidingObj.Contains(collision.gameObject))
+        {
+            collidingObj.Add(collision.gameObject);
+        }
         inZone = true;
         colidepos = collision;
         checkAllcol();
@@ -169,74 +188,104 @@ public class MeleePlayerBattleController : MonoBehaviour
     }
     String col(Collider2D collider)
     {
-        UnityEngine.Vector3 otherpos = collider.attachedRigidbody.transform.position;
-        UnityEngine.Vector3 myPos = gameObject.transform.position;
-        if (isTurn)
+        Vector3 otherpos = collider.attachedRigidbody.transform.position;
+        Vector3 myPos = gameObject.transform.position;
+        Vector3 checkPos;
+
+        checkPos = new Vector3(myPos.x - 1, myPos.y);
+        if (currentCollisions.Contains(checkPos))
         {
-          
-            if (myPos.x > otherpos.x && myPos.y == otherpos.y)
-            {
-                if (!enemyDirections.Contains("L"))
-                    return "L";
-                
-            }
-            else if (enemyDirections.Contains("L"))
-            {
-                enemyDirections.Remove("L");
-            }
-            if (myPos.x < otherpos.x && myPos.y == otherpos.y)
-            {
-                if (!enemyDirections.Contains("R"))
-                    return "R";
+            if (!enemyDirections.Contains("L"))
+                return "L";
 
-            }
-            else if (enemyDirections.Contains("R"))
-            {
-                enemyDirections.Remove("R");
-            }
-            if (myPos.y > otherpos.y && myPos.x == otherpos.x)
-            {
-                if (!enemyDirections.Contains("D"))
-                    return "D";
-            }
-            else if (enemyDirections.Contains("D"))
-            {
-                enemyDirections.Remove("D");
-            }
-
-            if (myPos.y < otherpos.y && myPos.x == otherpos.x)
-            {
-                if (!enemyDirections.Contains("U"))
-                    return "U";
-            }
-            else if (enemyDirections.Contains("U"))
-            {
-                enemyDirections.Remove("U");
-            }
         }
+        else if (enemyDirections.Contains("L"))
+        {
+            enemyDirections.Remove("L");
+        }
+        checkPos = new Vector3(myPos.x + 1, myPos.y);
+        if (currentCollisions.Contains(checkPos))
+        {
+            if (!enemyDirections.Contains("R"))
+                return "R";
+
+        }
+        else if (enemyDirections.Contains("R"))
+        {
+            enemyDirections.Remove("R");
+        }
+        checkPos = new Vector3(myPos.x, myPos.y - 1);
+        if (currentCollisions.Contains(checkPos))
+        {
+            if (!enemyDirections.Contains("D"))
+                return "D";
+        }
+        else if (enemyDirections.Contains("D"))
+        {
+            enemyDirections.Remove("D");
+        }
+        checkPos = new Vector3(myPos.x, myPos.y + 1);
+        if (currentCollisions.Contains(checkPos))
+        {
+            if (!enemyDirections.Contains("U"))
+                return "U";
+        }
+        else if (enemyDirections.Contains("U"))
+        {
+            enemyDirections.Remove("U");
+        }
+
         return "none";
 
     }
     void OnTriggerExit2D(Collider2D other)
     {
-           if (currentCollisions.Contains(other))
+        if (other.gameObject.GetComponent<MeleePlayerBattleController>() != null)
         {
-            currentCollisions.Remove(other);
+            other.gameObject.GetComponent<MeleePlayerBattleController>().currentCollisions.Clear();
+        }
+        else
+        {
+            other.gameObject.GetComponent<EnemyBattleScript>().currentCollisions.Clear();
+        }
+        Vector3 otherVec = other.attachedRigidbody.transform.position;
+        if (currentCollisions.Contains(otherVec))
+        {
+            currentCollisions.Remove(otherVec);
         }
         if (currentCollisions.Count == 0)
         {
-            
+            enemyDirections.Clear();
             inZone = false;
         }
-        enemyDirections.Clear();
+        if (!isTurn)
+        {
+            currentCollisions.Clear();
+        }
     }
     void checkAllcol()
     {
-        foreach (Collider2D c in currentCollisions)
+         
+        if (!currentCollisions.Contains(colidepos.attachedRigidbody.transform.position)){
+            currentCollisions.Add(colidepos.attachedRigidbody.transform.position); }
+
+        foreach (Vector3 c in currentCollisions)
         {
             enemyDirections.Add(col(colidepos));
             enemyDirections.Remove("none");
         }
     }
+    public static void BroadcastAll(string fun, System.Object msg)
+    {
+        GameObject[] gos = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));
+        foreach (GameObject go in gos)
+        {
+            if (go && go.transform.parent == null)
+            {
+                go.gameObject.BroadcastMessage(fun, msg, SendMessageOptions.DontRequireReceiver);
+            }
+        }
+    }
+
 
 }
