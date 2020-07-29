@@ -31,6 +31,7 @@ public class MeleePlayerBattleController : MonoBehaviour
     public Text alert;
     public Text hpText;
 
+    public List<Collider2D> currentCollisions = new List<Collider2D>();
     public List<string> enemyDirections = new List<string>();
     public List<GameObject> enemies = new List<GameObject>();
     public List<GameObject> adjEnemies = new List<GameObject>();
@@ -65,11 +66,9 @@ public class MeleePlayerBattleController : MonoBehaviour
                 Movement();
             else if(moved < speed)
             {
-                enemyDirections.Add(col(colidepos));
-                enemyDirections.Remove("none");
+                checkAllcol();
                 Movement();
-                enemyDirections.Add(col(colidepos));
-                enemyDirections.Remove("none");
+                checkAllcol();
             }
             
             if (!attacked)
@@ -161,13 +160,13 @@ public class MeleePlayerBattleController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        currentCollisions.Add(collision);
         inZone = true;
         colidepos = collision;
-        enemyDirections.Add(col(collision));
-        enemyDirections.Remove("none");
-            
-            
-      }
+        checkAllcol();
+
+
+    }
     String col(Collider2D collider)
     {
         UnityEngine.Vector3 otherpos = collider.attachedRigidbody.transform.position;
@@ -220,8 +219,24 @@ public class MeleePlayerBattleController : MonoBehaviour
     }
     void OnTriggerExit2D(Collider2D other)
     {
+           if (currentCollisions.Contains(other))
+        {
+            currentCollisions.Remove(other);
+        }
+        if (currentCollisions.Count == 0)
+        {
+            
+            inZone = false;
+        }
         enemyDirections.Clear();
-        inZone= false;
+    }
+    void checkAllcol()
+    {
+        foreach (Collider2D c in currentCollisions)
+        {
+            enemyDirections.Add(col(colidepos));
+            enemyDirections.Remove("none");
+        }
     }
 
 }

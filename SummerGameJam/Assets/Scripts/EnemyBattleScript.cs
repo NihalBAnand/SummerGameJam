@@ -21,6 +21,7 @@ public class EnemyBattleScript : MonoBehaviour
     public BattleStart battleStart;
     private GameObject temp;
     public bool inZone = false;
+    public List<Vector3> currentCollisions = new List<Vector3>();
     public List<string> enemyDirections = new List<string>();
     public Collider2D colidepos;
     public bool adjenemy = false;
@@ -53,6 +54,7 @@ public class EnemyBattleScript : MonoBehaviour
              Destroy(gameObject);
          }*/
 
+        
         if (moved >= speed || atEnemy == true)
         {
             endTurn();
@@ -71,11 +73,9 @@ public class EnemyBattleScript : MonoBehaviour
             }
             else if (moved < speed && inZone == true)
             {
-                enemyDirections.Add(col(colidepos));
-                enemyDirections.Remove("none");
+                checkAllcol();
                 Move();
-                enemyDirections.Add(col(colidepos));
-                enemyDirections.Remove("none");
+                checkAllcol();
             }
         }
         
@@ -190,10 +190,11 @@ public class EnemyBattleScript : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        
+        currentCollisions.Add(collision.attachedRigidbody.transform.position);
         inZone = true;
         colidepos = collision;
-        enemyDirections.Add(col(collision));
-        enemyDirections.Remove("none");
+        checkAllcol();
 
 
     }
@@ -201,10 +202,11 @@ public class EnemyBattleScript : MonoBehaviour
     {
         UnityEngine.Vector3 otherpos = collider.attachedRigidbody.transform.position;
         UnityEngine.Vector3 myPos = gameObject.transform.position;
+        UnityEngine.Vector3 checkPos;
         if (isTurn)
         {
-
-            if (myPos.x > otherpos.x && myPos.y == otherpos.y)
+            checkPos = new Vector3(myPos.x - 1, myPos.y);
+            if (currentCollisions.Contains(checkPos))
             {
                 if (!enemyDirections.Contains("L"))
                     return "L";
@@ -214,7 +216,8 @@ public class EnemyBattleScript : MonoBehaviour
             {
                 enemyDirections.Remove("L");
             }
-            if (myPos.x < otherpos.x && myPos.y == otherpos.y)
+            checkPos = new Vector3(myPos.x + 1, myPos.y);
+            if (currentCollisions.Contains(checkPos))
             {
                 if (!enemyDirections.Contains("R"))
                     return "R";
@@ -224,7 +227,8 @@ public class EnemyBattleScript : MonoBehaviour
             {
                 enemyDirections.Remove("R");
             }
-            if (myPos.y > otherpos.y && myPos.x == otherpos.x)
+            checkPos = new Vector3(myPos.x , myPos.y -1);
+            if (currentCollisions.Contains(checkPos))
             {
                 if (!enemyDirections.Contains("D"))
                     return "D";
@@ -233,8 +237,8 @@ public class EnemyBattleScript : MonoBehaviour
             {
                 enemyDirections.Remove("D");
             }
-
-            if (myPos.y < otherpos.y && myPos.x == otherpos.x)
+            checkPos = new Vector3(myPos.x , myPos.y+1);
+            if (currentCollisions.Contains(checkPos))
             {
                 if (!enemyDirections.Contains("U"))
                     return "U";
@@ -249,9 +253,29 @@ public class EnemyBattleScript : MonoBehaviour
     }
     void OnTriggerExit2D(Collider2D other)
     {
-        enemyDirections.Clear();
-        inZone = false;
+        Vector3 otherVec = other.attachedRigidbody.transform.position;
+        if (currentCollisions.Contains(otherVec))
+        {
+            currentCollisions.Remove(otherVec);
+        }
+        if (currentCollisions.Count == 0)
+        {
+            enemyDirections.Clear();
+            inZone = false;
+        }
+        if (!isTurn)
+        {
+            currentCollisions.Clear();
+        }
     }
-    
+    void checkAllcol()
+    {
+        currentCollisions.Add(colidepos.attachedRigidbody.transform.position);
+        foreach (Vector3 c in currentCollisions)
+        {
+            enemyDirections.Add(col(colidepos));
+            enemyDirections.Remove("none");
+        }
+    }
 }
 
