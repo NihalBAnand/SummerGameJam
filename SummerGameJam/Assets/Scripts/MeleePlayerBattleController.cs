@@ -111,32 +111,48 @@ public class MeleePlayerBattleController : MonoBehaviour
         {
             if (!enemyDirections.Contains("L"))
             {
+                Vector3 prev = new Vector3(gameObject.transform.position);
                 gameObject.transform.position = new Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y);
                 moved++;
+                Vector3 now = new Vector3(gameObject.transform.position);
+                Vector3[] transition = new Vector3[] { prev, now };
+                BroadcastAll("updateColl", transition);
             }
         }
         else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             if (!enemyDirections.Contains("R"))
             {
+                Vector3 prev = new Vector3(gameObject.transform.position);
                 gameObject.transform.position = new Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y);
                 moved++;
+                Vector3 now = new Vector3(gameObject.transform.position);
+                Vector3[] transition = new Vector3[] { prev, now };
+                BroadcastAll("updateColl", transition);
             }
         }
         else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             if (!enemyDirections.Contains("U"))
             {
+                Vector3 prev = new Vector3(gameObject.transform.position);
                 gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1);
                 moved++;
+                Vector3 now = new Vector3(gameObject.transform.position);
+                Vector3[] transition = new Vector3[] { prev, now };
+                BroadcastAll("updateColl", transition);
             }
         }
         else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             if (!enemyDirections.Contains("D"))
             {
+                Vector3 prev = new Vector3(gameObject.transform.position);
                 gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 1);
                 moved++;
+                Vector3 now = new Vector3(gameObject.transform.position);
+                Vector3[] transition = new Vector3[] { prev, now };
+                BroadcastAll("updateColl", transition);
             }
         }
         BoxCollider2D box = GetComponent<BoxCollider2D>();
@@ -280,11 +296,17 @@ public class MeleePlayerBattleController : MonoBehaviour
         GameObject[] gos = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));
         foreach (GameObject go in gos)
         {
-            if (go && go.transform.parent == null)
+            
+            if (go != gameObject && (go && go.transform.parent == null))
             {
                 go.gameObject.BroadcastMessage(fun, msg, SendMessageOptions.DontRequireReceiver);
             }
         }
+    }
+
+    public void updateColl(Vector3[] vs)
+    {
+        return null;
     }
 
 
