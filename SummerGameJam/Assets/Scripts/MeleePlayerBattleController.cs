@@ -91,7 +91,7 @@ public class MeleePlayerBattleController : MonoBehaviour
     public void EndTurn()
     {
         GlobalController.turn += 1;
-        currentCollisions.Clear();
+        //currentCollisions.Clear();
     }
 
 
@@ -276,7 +276,7 @@ public class MeleePlayerBattleController : MonoBehaviour
         }
         if (!isTurn)
         {
-            currentCollisions.Clear();
+            //currentCollisions.Clear();
         }
     }
     void checkAllcol()
