@@ -30,6 +30,8 @@ public class EnemyBattleScript : MonoBehaviour
     public bool selected = false;
     int turn;
     public int xy = -1;
+    public int[] dir = new int[4];
+    public String[] tempStr = { "R", "L", "U", "D" };
 
 
 
@@ -93,8 +95,8 @@ public class EnemyBattleScript : MonoBehaviour
     }
     void Move()
     {
-        
-        if (xy > 0)
+
+        /*if (xy > 0)
         {
             if (player.x > gameObject.transform.position.x)
             {
@@ -175,7 +177,8 @@ public class EnemyBattleScript : MonoBehaviour
 
                 //down
             }
-        }
+        }*/
+        movePos(moveDir());
         xy*=-1;
         BoxCollider2D box = GetComponent<BoxCollider2D>(); 
         box.size = new Vector3(box.size.x -.1f, box.size.y - .1f);
@@ -322,6 +325,134 @@ public class EnemyBattleScript : MonoBehaviour
         {
             currentCollisions.Remove(vs[0]);
             currentCollisions.Add(vs[1]);
+        }
+    }
+    public String moveDir()
+    {
+        targetDetect();
+        if (!atEnemy)
+        {
+            for (int i = 0; i < dir.Length; i++)
+            {
+                dir[i] = 0;
+            }
+            //0 = R, 1 = L, 2 = U, 4 = D               
+            if (enemyDirections.Contains("R"))
+            {
+                dir[0] -= 1000;
+            }
+            else if (enemyDirections.Contains("L"))
+            {
+                dir[1] -= 1000;
+            }
+            else if (enemyDirections.Contains("U"))
+            {
+                dir[2] -= 1000;
+            }
+            else if (enemyDirections.Contains("D"))
+            {
+                dir[3] -= 10000;
+            }
+            if (xy > 0)
+            {
+
+                if (player.x > gameObject.transform.position.x)
+                {
+                    dir[0] += 1;
+                }
+                else if (player.x < gameObject.transform.position.x)
+                {
+                    dir[1] += 1;
+                }
+                else
+                {
+                    return "";
+                }
+
+            }
+            else if (xy < 0)
+            {
+                if (player.y > gameObject.transform.position.y)
+                {
+                    dir[2] += 1;
+                }
+                else if (player.y < gameObject.transform.position.y)
+                {
+                    dir[3] += 1;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            String direction = "";
+            int maxDirVal = 0;
+            for (int i = 0; i < dir.Length; i++)
+            {
+                if (dir[i] >= maxDirVal)
+                {
+                    direction = tempStr[i];
+                    maxDirVal = dir[i];
+                }
+
+            }
+            Debug.Log(direction);
+            return direction;
+            
+        }
+        return "";
+
+
+    }
+    public void movePos(string s)
+    {
+        if(s == "R")
+        {
+            Vector3 prev = gameObject.transform.position;
+            gameObject.transform.position = new Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y);
+            moved++;
+            Vector3 now = gameObject.transform.position;
+            Vector3[] transition = new Vector3[] { prev, now };
+            BroadcastAll("updateColl", transition);
+        }
+        else if(s == "L")
+        {
+            Vector3 prev = gameObject.transform.position;
+            gameObject.transform.position = new Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y);
+            moved++;
+            Vector3 now = gameObject.transform.position;
+            Vector3[] transition = new Vector3[] { prev, now };
+            BroadcastAll("updateColl", transition);
+        }
+        else if(s == "U")
+        {
+            Vector3 prev = gameObject.transform.position;
+            gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1);
+            moved++;
+            Vector3 now = gameObject.transform.position;
+            Vector3[] transition = new Vector3[] { prev, now };
+            BroadcastAll("updateColl", transition);
+        }
+        else if(s == "D")
+        {
+            Vector3 prev = gameObject.transform.position;
+            gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 1);
+            moved++;
+            Vector3 now = gameObject.transform.position;
+            Vector3[] transition = new Vector3[] { prev, now };
+            BroadcastAll("updateColl", transition);
+        }
+
+
+    }
+    public void targetDetect()
+    {
+        if ((enemyDirections.Contains("R") && gameObject.transform.position.y == player.y && gameObject.transform.position.x + 1 == player.x)
+          || (enemyDirections.Contains("L") && gameObject.transform.position.y == player.y && gameObject.transform.position.x - 1 == player.x)
+          || (enemyDirections.Contains("U") && gameObject.transform.position.x == player.x && gameObject.transform.position.y + 1 == player.y)
+          || (enemyDirections.Contains("D") && gameObject.transform.position.x == player.x && gameObject.transform.position.y - 1 == player.y))
+        {
+            atEnemy = true;
         }
     }
 }
