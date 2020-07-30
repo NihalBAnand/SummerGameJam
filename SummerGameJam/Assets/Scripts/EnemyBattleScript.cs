@@ -103,9 +103,13 @@ public class EnemyBattleScript : MonoBehaviour
                 }
                 else if (!enemyDirections.Contains("R"))
                 {
+                    Vector3 prev = gameObject.transform.position;
                     gameObject.transform.position = new Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y);
                     moved++;
-                    
+                    Vector3 now = gameObject.transform.position;
+                    Vector3[] transition = new Vector3[] { prev, now };
+                    BroadcastAll("updateColl", transition);
+
                 }
 
                 //Right
@@ -118,9 +122,13 @@ public class EnemyBattleScript : MonoBehaviour
                 }
                 else if (!enemyDirections.Contains("L"))
                 {
+                    Vector3 prev = gameObject.transform.position;
                     gameObject.transform.position = new Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y);
                     moved++;
-                  
+                    Vector3 now = gameObject.transform.position;
+                    Vector3[] transition = new Vector3[] { prev, now };
+                    BroadcastAll("updateColl", transition);
+
                 }
 
                 //Left
@@ -137,9 +145,14 @@ public class EnemyBattleScript : MonoBehaviour
                 }
                 else if (!enemyDirections.Contains("U"))
                 {
+                    Vector3 prev = gameObject.transform.position;
                     gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1);
                     moved++;
-                    
+                    Vector3 now = gameObject.transform.position;
+                    Vector3[] transition = new Vector3[] { prev, now };
+                    BroadcastAll("updateColl", transition);
+
+
                 }
                 //up
             }
@@ -151,9 +164,14 @@ public class EnemyBattleScript : MonoBehaviour
                 }
                 else if (!enemyDirections.Contains("D"))
                 {
+                    Vector3 prev = gameObject.transform.position;
                     gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 1);
                     moved++;
-                
+                    Vector3 now = gameObject.transform.position;
+                    Vector3[] transition = new Vector3[] { prev, now };
+                    BroadcastAll("updateColl", transition);
+
+
                 }
 
                 //down
@@ -278,6 +296,27 @@ public class EnemyBattleScript : MonoBehaviour
         {
             enemyDirections.Add(col(colidepos));
             enemyDirections.Remove("none");
+        }
+    }
+    public void BroadcastAll(string fun, System.Object msg)
+    {
+        GameObject[] gos = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));
+        foreach (GameObject go in gos)
+        {
+
+            if (go != gameObject && (go && go.transform.parent == null))
+            {
+                go.gameObject.BroadcastMessage(fun, msg, SendMessageOptions.DontRequireReceiver);
+            }
+        }
+    }
+
+    public void updateColl(Vector3[] vs)
+    {
+        if (currentCollisions.Contains(vs[0]))
+        {
+            currentCollisions.Remove(vs[0]);
+            currentCollisions.Add(vs[1]);
         }
     }
 }

@@ -111,10 +111,10 @@ public class MeleePlayerBattleController : MonoBehaviour
         {
             if (!enemyDirections.Contains("L"))
             {
-                Vector3 prev = new Vector3(gameObject.transform.position);
+                Vector3 prev = gameObject.transform.position;
                 gameObject.transform.position = new Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y);
                 moved++;
-                Vector3 now = new Vector3(gameObject.transform.position);
+                Vector3 now = gameObject.transform.position;
                 Vector3[] transition = new Vector3[] { prev, now };
                 BroadcastAll("updateColl", transition);
             }
@@ -123,10 +123,10 @@ public class MeleePlayerBattleController : MonoBehaviour
         {
             if (!enemyDirections.Contains("R"))
             {
-                Vector3 prev = new Vector3(gameObject.transform.position);
+                Vector3 prev = gameObject.transform.position;
                 gameObject.transform.position = new Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y);
                 moved++;
-                Vector3 now = new Vector3(gameObject.transform.position);
+                Vector3 now = gameObject.transform.position;
                 Vector3[] transition = new Vector3[] { prev, now };
                 BroadcastAll("updateColl", transition);
             }
@@ -135,10 +135,10 @@ public class MeleePlayerBattleController : MonoBehaviour
         {
             if (!enemyDirections.Contains("U"))
             {
-                Vector3 prev = new Vector3(gameObject.transform.position);
+                Vector3 prev = gameObject.transform.position;
                 gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1);
                 moved++;
-                Vector3 now = new Vector3(gameObject.transform.position);
+                Vector3 now = gameObject.transform.position;
                 Vector3[] transition = new Vector3[] { prev, now };
                 BroadcastAll("updateColl", transition);
             }
@@ -147,10 +147,10 @@ public class MeleePlayerBattleController : MonoBehaviour
         {
             if (!enemyDirections.Contains("D"))
             {
-                Vector3 prev = new Vector3(gameObject.transform.position);
+                Vector3 prev = gameObject.transform.position;
                 gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 1);
                 moved++;
-                Vector3 now = new Vector3(gameObject.transform.position);
+                Vector3 now = gameObject.transform.position;
                 Vector3[] transition = new Vector3[] { prev, now };
                 BroadcastAll("updateColl", transition);
             }
@@ -256,14 +256,14 @@ public class MeleePlayerBattleController : MonoBehaviour
     }
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<MeleePlayerBattleController>() != null)
+    /*    if (other.gameObject.GetComponent<MeleePlayerBattleController>() != null)
         {
             other.gameObject.GetComponent<MeleePlayerBattleController>().currentCollisions.Clear();
         }
         else
         {
             other.gameObject.GetComponent<EnemyBattleScript>().currentCollisions.Clear();
-        }
+        }*/
         Vector3 otherVec = other.attachedRigidbody.transform.position;
         if (currentCollisions.Contains(otherVec))
         {
@@ -291,7 +291,7 @@ public class MeleePlayerBattleController : MonoBehaviour
             enemyDirections.Remove("none");
         }
     }
-    public static void BroadcastAll(string fun, System.Object msg)
+    public void BroadcastAll(string fun, System.Object msg)
     {
         GameObject[] gos = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));
         foreach (GameObject go in gos)
@@ -306,7 +306,11 @@ public class MeleePlayerBattleController : MonoBehaviour
 
     public void updateColl(Vector3[] vs)
     {
-        return null;
+        if (currentCollisions.Contains(vs[0]))
+        {
+            currentCollisions.Remove(vs[0]);
+            currentCollisions.Add(vs[1]);
+        }
     }
 
 

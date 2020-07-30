@@ -55,11 +55,11 @@ public class BattleStart : MonoBehaviour
             {
                 if (xy > 0)
                 {
-                    xpos += 1;
+                    xpos += 2;
                 }
                 else
                 {
-                    ypos += 1;
+                    ypos += 2;
                 }
                 posString = xpos.ToString() + "," + ypos.ToString();
                 xy *= -1;
@@ -140,6 +140,7 @@ public class BattleStart : MonoBehaviour
             
             turn = GlobalController.turn;
         }
+     
     }
     void scramble()
     {
