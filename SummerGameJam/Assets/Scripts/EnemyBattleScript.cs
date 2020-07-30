@@ -32,6 +32,7 @@ public class EnemyBattleScript : MonoBehaviour
     public int xy = -1;
 
 
+
     // Start is called before the first frame update d
     void Start()
     {
@@ -151,8 +152,6 @@ public class EnemyBattleScript : MonoBehaviour
                     Vector3 now = gameObject.transform.position;
                     Vector3[] transition = new Vector3[] { prev, now };
                     BroadcastAll("updateColl", transition);
-
-
                 }
                 //up
             }
@@ -212,8 +211,11 @@ public class EnemyBattleScript : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        
-        currentCollisions.Add(collision.attachedRigidbody.transform.position);
+
+        if (!currentCollisions.Contains(collision.attachedRigidbody.transform.position))
+        {
+            currentCollisions.Add(collision.attachedRigidbody.transform.position);
+        }
         inZone = true;
         colidepos = collision;
         checkAllcol();
@@ -286,12 +288,15 @@ public class EnemyBattleScript : MonoBehaviour
         }
         if (!isTurn)
         {
-            currentCollisions.Clear();
+            //currentCollisions.Clear();
         }
     }
     void checkAllcol()
     {
-        currentCollisions.Add(colidepos.attachedRigidbody.transform.position);
+        if (!currentCollisions.Contains(colidepos.attachedRigidbody.transform.position))
+        {
+            currentCollisions.Add(colidepos.attachedRigidbody.transform.position);
+        }
         foreach (Vector3 c in currentCollisions)
         {
             enemyDirections.Add(col(colidepos));
