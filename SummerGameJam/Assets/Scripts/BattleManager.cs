@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.VFX;
 using Random = UnityEngine.Random;
 
-public class BattleStart : MonoBehaviour
+public class BattleManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject partyMember;
