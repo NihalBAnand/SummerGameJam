@@ -334,6 +334,7 @@ public class EnemyBattleScript : MonoBehaviour
     }
     public String moveDir()
     {
+        selectTarget();
         targetDetect();
         if (!atEnemy)
         {
