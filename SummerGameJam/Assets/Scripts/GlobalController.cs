@@ -8,6 +8,7 @@ public class GlobalController : MonoBehaviour
     public static int partymembers;
     public static int turn;
     public static int enemies;
+    public static int turnCycle;
 
     void Awake()
     {
@@ -21,6 +22,7 @@ public class GlobalController : MonoBehaviour
         partymembers = 2;
         enemies = 2;
         turn = 0;
+        turnCycle = 0;
     }
     
 }

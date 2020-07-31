@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class BattleManager : MonoBehaviour
     public List<String> positions = new List<string>();
     public List<GameObject> players = new List<GameObject>();
     String posString;
+    public int turnCycle = 0;
+
   
     void Start()
     {
@@ -31,6 +34,7 @@ public class BattleManager : MonoBehaviour
         Debug.Log(ppl);
         SpawnParty();
         SpawnEnemies();
+        scramble();
         try
         {
             players[0].GetComponent<MeleePlayerBattleController>().isTurn = true;
@@ -77,8 +81,18 @@ public class BattleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        endCondition();
         handleTurn();
     }
+
+    void endCondition()
+    {
+        if(enemies <= 0 || ppl <= 0)
+        {
+            SceneManager.LoadScene("Assets/Scenes/Testing Ground 2.unity");
+        }
+    }
+
     void SpawnParty()
     {
         while (amount < ppl)
@@ -112,8 +126,11 @@ public class BattleManager : MonoBehaviour
         if (GlobalController.turn >= players.Count)
         { 
             GlobalController.turn = 0;
+            turn = GlobalController.turn;
+            GlobalController.turnCycle += 1;
 
         }
+
         else if (GlobalController.turn > turn || GlobalController.turn < turn)
         {
             
@@ -144,8 +161,8 @@ public class BattleManager : MonoBehaviour
     }
     void scramble()
     {
-        for (int i = 0; i < players.Count; i++)
-        {
+        for (int i = 1; i < players.Count; i++)
+        { 
             GameObject temp = players[i];
             int randomIndex = Random.Range(i, players.Count);
             players[i] = players[randomIndex];

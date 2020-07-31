@@ -10,6 +10,7 @@ using UnityEngine.iOS;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Vector3 = UnityEngine.Vector3;
+using Random = UnityEngine.Random;
 
 
 public class MeleePlayerBattleController : MonoBehaviour
@@ -35,17 +36,17 @@ public class MeleePlayerBattleController : MonoBehaviour
     public Text alert;
     public Text hpText;
 
-    public List<GameObject> collidingObj = new List<GameObject>();
+    public List<GameObject> adjEnemies = new List<GameObject>();
     public List<Vector3> currentCollisions = new List<Vector3>();
     public List<string> enemyDirections = new List<string>();
     public List<GameObject> enemies = new List<GameObject>();
-    public List<GameObject> adjEnemies = new List<GameObject>();
     public List<GameObject> players = new List<GameObject>();
     public List<GameObject> adjPlayers = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
+        hp = 10;
         inZone = false;
         moveText = GameObject.FindGameObjectWithTag("Moves").GetComponent<Text>();
         alert = GameObject.FindGameObjectWithTag("alert").GetComponent<Text>();
@@ -64,11 +65,19 @@ public class MeleePlayerBattleController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        
+
+        checkHealth();
         //DetectObjects();
         if (isTurn)
         {
+          if(GlobalController.turnCycle == 0 && GlobalController.turn == 0)
+            {
+                
+                if (Random.Range(1,players.Count) == 1)
+                {
+                    EndTurn();
+                }
+            }
             if (moved < speed && inZone == false )
                 Movement();
             else if(moved < speed)
@@ -95,15 +104,6 @@ public class MeleePlayerBattleController : MonoBehaviour
     }
 
 
-    /*    IEnumerator EndTurn()
-        {
-            isTurn = false;
-            isEnemyTurn = true;
-            yield return new WaitUntil(() => !isEnemyTurn);
-            moved = 0;
-            attacked = false;
-            isTurn = true;
-        }*/
 
     void Movement()
     {
@@ -166,10 +166,23 @@ public class MeleePlayerBattleController : MonoBehaviour
         alert.enabled = enemyAdj;
         hpText.text = "HP: " + hp;
     }
-
+    void checkHealth()
+    {
+        if (hp <= 0)
+        {
+            BattleManager battleManager = GameObject.Find("BattleStart").GetComponent<BattleManager>();
+            battleManager.players.Remove(gameObject);
+            battleManager.ppl -= 1;
+            GameObject.Destroy(gameObject);
+        }
+    }
 
     void Attack()
     {
+        if(adjEnemies.Count > 0)
+        {
+            enemyAdj = true;
+        }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (enemyAdj)
@@ -192,10 +205,12 @@ public class MeleePlayerBattleController : MonoBehaviour
         {
             currentCollisions.Add(collision.attachedRigidbody.transform.position);
         }
-        if (!collidingObj.Contains(collision.gameObject))
+        if (!adjEnemies.Contains(collision.gameObject))
         {
-            collidingObj.Add(collision.gameObject);
+            if(collision.gameObject.GetComponent<EnemyBattleScript>() != null)
+                adjEnemies.Add(collision.gameObject);
         }
+     
         inZone = true;
         colidepos = collision;
         checkAllcol();
@@ -256,14 +271,6 @@ public class MeleePlayerBattleController : MonoBehaviour
     }
     void OnTriggerExit2D(Collider2D other)
     {
-    /*    if (other.gameObject.GetComponent<MeleePlayerBattleController>() != null)
-        {
-            other.gameObject.GetComponent<MeleePlayerBattleController>().currentCollisions.Clear();
-        }
-        else
-        {
-            other.gameObject.GetComponent<EnemyBattleScript>().currentCollisions.Clear();
-        }*/
         Vector3 otherVec = other.attachedRigidbody.transform.position;
         if (currentCollisions.Contains(otherVec))
         {
@@ -274,6 +281,8 @@ public class MeleePlayerBattleController : MonoBehaviour
             enemyDirections.Clear();
             inZone = false;
         }
+        if (adjEnemies.Contains(other.gameObject))
+            adjEnemies.Remove(other.gameObject);
         if (!isTurn)
         {
             //currentCollisions.Clear();
@@ -281,8 +290,8 @@ public class MeleePlayerBattleController : MonoBehaviour
     }
     void checkAllcol()
     {
-         
-        if (!currentCollisions.Contains(colidepos.attachedRigidbody.transform.position)){
+       
+        if (colidepos != null && !currentCollisions.Contains(colidepos.attachedRigidbody.transform.position)){
             currentCollisions.Add(colidepos.attachedRigidbody.transform.position); }
 
         foreach (Vector3 c in currentCollisions)

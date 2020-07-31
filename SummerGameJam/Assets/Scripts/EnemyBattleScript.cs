@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 using System.Threading;
 using System.Linq.Expressions;
 using TMPro;
+using UnityEngine.UI;
 
 public class EnemyBattleScript : MonoBehaviour
 {
@@ -35,15 +36,23 @@ public class EnemyBattleScript : MonoBehaviour
     public String[] tempStr = { "R", "L", "U", "D" };
 
 
+    public Text moveText;
+    public Text alert;
+    public Text hpText;
+
+
 
     // Start is called before the first frame update d
     void Start()
     {
-        
+        moveText = GameObject.FindGameObjectWithTag("Moves").GetComponent<Text>();
+        alert = GameObject.FindGameObjectWithTag("alert").GetComponent<Text>();
+        hpText = GameObject.FindGameObjectWithTag("hp").GetComponent<Text>();
+
         //BattleManager = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         //Activeplayer = battleStart.players[0].GetComponent<MeleePlayerBattleController>();
         speed = 100;
-
+        health = 10;
         lastDir = "";
 
     }
@@ -53,11 +62,7 @@ public class EnemyBattleScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /* if (health <= 0)
-         {
-             Destroy(gameObject);
-         }*/
-
+        checkHealth();
         
         if (moved >= speed || atEnemy == true)
         {
@@ -65,6 +70,7 @@ public class EnemyBattleScript : MonoBehaviour
         }
         if (isTurn)
         {
+            UpdateUI();
             if (!selected)
             {
                 Debug.Log("Selecting");
@@ -86,8 +92,33 @@ public class EnemyBattleScript : MonoBehaviour
      
 
     }
+
+    void checkHealth()
+    {
+        if (health <= 0)
+        {   
+
+            battleManager = GameObject.Find("BattleStart").GetComponent<BattleManager>();
+            battleManager.players.Remove(gameObject);
+            battleManager.enemies -= 1;
+            GameObject.Destroy(gameObject);
+        }
+    }
+
+    void UpdateUI()
+    {
+        moveText.text = "Movement left: " + (speed - moved);
+        hpText.text = "HP: " + health;
+    }
     void endTurn()
     {
+        if (atEnemy)
+        {
+            if (Activeplayer != null)
+            {
+                Activeplayer.hp -= dmg;
+            }
+        }
         GlobalController.turn += 1;
         isTurn = false;
         atEnemy = false;
@@ -100,89 +131,6 @@ public class EnemyBattleScript : MonoBehaviour
     }
     void Move()
     {
-
-        /*if (xy > 0)
-        {
-            if (player.x > gameObject.transform.position.x)
-            {
-                if (enemyDirections.Contains("R") && gameObject.transform.position.y == player.y && gameObject.transform.position.x + 1 == player.x)
-                {
-                    atEnemy = true;
-                }
-                else if (!enemyDirections.Contains("R"))
-                {
-                    Vector3 prev = gameObject.transform.position;
-                    gameObject.transform.position = new Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y);
-                    moved++;
-                    Vector3 now = gameObject.transform.position;
-                    Vector3[] transition = new Vector3[] { prev, now };
-                    BroadcastAll("updateColl", transition);
-
-                }
-
-                //Right
-            }
-            else if (player.x < gameObject.transform.position.x)
-            {
-                if (enemyDirections.Contains("L") && gameObject.transform.position.y == player.y && gameObject.transform.position.x - 1 == player.x)
-                {
-                    atEnemy = true;
-                }
-                else if (!enemyDirections.Contains("L"))
-                {
-                    Vector3 prev = gameObject.transform.position;
-                    gameObject.transform.position = new Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y);
-                    moved++;
-                    Vector3 now = gameObject.transform.position;
-                    Vector3[] transition = new Vector3[] { prev, now };
-                    BroadcastAll("updateColl", transition);
-
-                }
-
-                //Left
-            }
-
-        }
-        else
-        {
-            if (player.y > gameObject.transform.position.y)
-            {
-                if (enemyDirections.Contains("U") && gameObject.transform.position.x == player.x && gameObject.transform.position.y + 1 == player.y)
-                {
-                    atEnemy = true;
-                }
-                else if (!enemyDirections.Contains("U"))
-                {
-                    Vector3 prev = gameObject.transform.position;
-                    gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1);
-                    moved++;
-                    Vector3 now = gameObject.transform.position;
-                    Vector3[] transition = new Vector3[] { prev, now };
-                    BroadcastAll("updateColl", transition);
-                }
-                //up
-            }
-            else if (player.y < gameObject.transform.position.y)
-            {
-                if (enemyDirections.Contains("D") && gameObject.transform.position.x == player.x && gameObject.transform.position.y - 1 == player.y)
-                {
-                    atEnemy = true;
-                }
-                else if (!enemyDirections.Contains("D"))
-                {
-                    Vector3 prev = gameObject.transform.position;
-                    gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 1);
-                    moved++;
-                    Vector3 now = gameObject.transform.position;
-                    Vector3[] transition = new Vector3[] { prev, now };
-                    BroadcastAll("updateColl", transition);
-
-
-                }
-
-                //down
-            }
-        }*/
         movePos(moveDir());
         xy*=-1;
         BoxCollider2D box = GetComponent<BoxCollider2D>(); 
@@ -198,7 +146,8 @@ public class EnemyBattleScript : MonoBehaviour
     void selectTarget()
     {
         battleManager = GameObject.Find("BattleStart").GetComponent<BattleManager>();
-        
+        if (battleManager.players[0].GetComponent<MeleePlayerBattleController>() != null) 
+            Activeplayer = battleManager.players[0].GetComponent<MeleePlayerBattleController>();
         float dist = Vector3.Distance(battleManager.players[0].transform.position, gameObject.transform.position);
         player = battleManager.players[0].transform.position;
         float mindist =  dist;
@@ -210,6 +159,7 @@ public class EnemyBattleScript : MonoBehaviour
                 if (mindist > dist)
                 {
                     player = battleManager.players[i].transform.position;
+                    Activeplayer = battleManager.players[i].GetComponent<MeleePlayerBattleController>();
                     mindist = dist;
                 }
             }
@@ -383,41 +333,7 @@ public class EnemyBattleScript : MonoBehaviour
 
             }
 
-            /*
-            if (xy > 0)
-            {
-
-                if (player.x > gameObject.transform.position.x)
-                {
-                    dir[0] += 2;
-                }
-                else if (player.x < gameObject.transform.position.x)
-                {
-                    dir[1] += 2;
-                }
-                else
-                {
-                    return "";
-                }
-
-            }
-            
-            if (xy < 0 && player.x == gameObject.transform.position.x)
-            {
-                if (player.y > gameObject.transform.position.y)
-                {
-                    dir[2] += 2;
-                }
-                else if (player.y < gameObject.transform.position.y)
-                {
-                    dir[3] += 2;
-                }
-                else
-                {
-                    return "";
-                }
-            }
-            */
+           
 
             if (player.x > gameObject.transform.position.x)
             {
