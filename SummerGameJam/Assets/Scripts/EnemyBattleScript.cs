@@ -18,7 +18,7 @@ public class EnemyBattleScript : MonoBehaviour
     public bool isTurn = false;
     public Vector3 player;
     public MeleePlayerBattleController Activeplayer;
-    public BattleStart battleStart;
+    public BattleManager battleManager;
     private GameObject temp;
     public bool inZone = false;
     public List<Vector3> currentCollisions = new List<Vector3>();
@@ -40,7 +40,7 @@ public class EnemyBattleScript : MonoBehaviour
     void Start()
     {
         
-        //battleStart = GameObject.Find("BattleStart").GetComponent<BattleStart>();
+        //BattleManager = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         //Activeplayer = battleStart.players[0].GetComponent<MeleePlayerBattleController>();
         speed = 100;
 
@@ -197,19 +197,19 @@ public class EnemyBattleScript : MonoBehaviour
 
     void selectTarget()
     {
-        battleStart = GameObject.Find("BattleStart").GetComponent<BattleStart>();
+        battleManager = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         
-        float dist = Vector3.Distance(battleStart.players[0].transform.position, gameObject.transform.position);
-        player = battleStart.players[0].transform.position;
+        float dist = Vector3.Distance(battleManager.players[0].transform.position, gameObject.transform.position);
+        player = battleManager.players[0].transform.position;
         float mindist =  dist;
-        for (int i = 1; i< battleStart.players.Count; i++)
+        for (int i = 1; i< battleManager.players.Count; i++)
         {
-            if(battleStart.players[i].GetComponent<MeleePlayerBattleController>() != null)
+            if(battleManager.players[i].GetComponent<MeleePlayerBattleController>() != null)
             {
-                dist = Vector3.Distance(battleStart.players[i].transform.position, gameObject.transform.position);
+                dist = Vector3.Distance(battleManager.players[i].transform.position, gameObject.transform.position);
                 if (mindist > dist)
                 {
-                    player = battleStart.players[i].transform.position;
+                    player = battleManager.players[i].transform.position;
                     mindist = dist;
                 }
             }
