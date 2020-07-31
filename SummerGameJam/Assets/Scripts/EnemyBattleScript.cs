@@ -197,7 +197,7 @@ public class EnemyBattleScript : MonoBehaviour
 
     void selectTarget()
     {
-        battleManager = GameObject.Find("BattleManager").GetComponent<BattleManager>();
+        battleManager = GameObject.Find("BattleStart").GetComponent<BattleManager>();
         
         float dist = Vector3.Distance(battleManager.players[0].transform.position, gameObject.transform.position);
         player = battleManager.players[0].transform.position;
