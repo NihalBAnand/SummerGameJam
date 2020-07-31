@@ -31,6 +31,7 @@ public class EnemyBattleScript : MonoBehaviour
     int turn;
     public int xy = -1;
     public int[] dir = new int[4];
+    public String lastDir = "";
     public String[] tempStr = { "R", "L", "U", "D" };
 
 
@@ -42,8 +43,8 @@ public class EnemyBattleScript : MonoBehaviour
         //battleStart = GameObject.Find("BattleStart").GetComponent<BattleStart>();
         //Activeplayer = battleStart.players[0].GetComponent<MeleePlayerBattleController>();
         speed = 100;
-        
 
+        lastDir = "";
 
     }
 
@@ -92,6 +93,10 @@ public class EnemyBattleScript : MonoBehaviour
         atEnemy = false;
         moved = 0;
         selected = false;
+        for (int i = 0; i < dir.Length; i++)
+        {
+            dir[i] = 0;
+        }
     }
     void Move()
     {
@@ -332,37 +337,62 @@ public class EnemyBattleScript : MonoBehaviour
         targetDetect();
         if (!atEnemy)
         {
-            for (int i = 0; i < dir.Length; i++)
-            {
-                dir[i] = 0;
-            }
+
             //0 = R, 1 = L, 2 = U, 4 = D               
             if (enemyDirections.Contains("R"))
             {
-                dir[0] -= 1000;
+                dir[0] = -1000;
             }
             else if (enemyDirections.Contains("L"))
             {
-                dir[1] -= 1000;
+                dir[1] = -1000;
             }
             else if (enemyDirections.Contains("U"))
             {
-                dir[2] -= 1000;
+                dir[2] = -1000;
             }
             else if (enemyDirections.Contains("D"))
             {
-                dir[3] -= 10000;
+                dir[3] = -1000;
             }
+            else
+            {
+                for (int i = 0; i < dir.Length; i++)
+                {
+                    dir[i] = 0;
+                }
+            }
+
+            switch (lastDir)
+            {
+                case "R":
+                    dir[0] -= 1;
+                    break;
+                case "L":
+                    dir[1] -= 1;
+                    break;
+                case "U":
+                    dir[2] -= 1;
+                    break;
+                case "D":
+                    dir[3] -= 1;
+                    break;
+                default:
+                    break;
+
+            }
+
+            /*
             if (xy > 0)
             {
 
                 if (player.x > gameObject.transform.position.x)
                 {
-                    dir[0] += 1;
+                    dir[0] += 2;
                 }
                 else if (player.x < gameObject.transform.position.x)
                 {
-                    dir[1] += 1;
+                    dir[1] += 2;
                 }
                 else
                 {
@@ -370,21 +400,61 @@ public class EnemyBattleScript : MonoBehaviour
                 }
 
             }
-            else if (xy < 0)
+            
+            if (xy < 0 && player.x == gameObject.transform.position.x)
             {
                 if (player.y > gameObject.transform.position.y)
                 {
-                    dir[2] += 1;
+                    dir[2] += 2;
                 }
                 else if (player.y < gameObject.transform.position.y)
                 {
-                    dir[3] += 1;
+                    dir[3] += 2;
                 }
                 else
                 {
                     return "";
                 }
             }
+            */
+
+            if (player.x > gameObject.transform.position.x)
+            {
+                dir[0] += 3;
+            }
+            if (player.x < gameObject.transform.position.x)
+            {
+                dir[1] += 3;
+            }
+            if (player.y > gameObject.transform.position.y)
+            {
+                dir[2] += 2;
+            }
+            if (player.y < gameObject.transform.position.y)
+            {
+                dir[3] += 2;
+            }
+
+            if (lastDir == "L" && player.y > gameObject.transform.position.y)
+            {
+                dir[2] += 3;
+            }
+            else if (lastDir == "L" && player.y < gameObject.transform.position.y)
+            {
+                dir[3] += 3;
+            }
+            if (lastDir == "R" && player.y > gameObject.transform.position.y)
+            {
+                dir[2] += 3;
+            }
+            else if (lastDir == "R" && player.y < gameObject.transform.position.y)
+            {
+                dir[3] += 3;
+            }
+
+
+
+
             String direction = "";
             int maxDirVal = 0;
             for (int i = 0; i < dir.Length; i++)
@@ -397,6 +467,7 @@ public class EnemyBattleScript : MonoBehaviour
 
             }
             Debug.Log(direction);
+            lastDir = direction;
             return direction;
             
         }
