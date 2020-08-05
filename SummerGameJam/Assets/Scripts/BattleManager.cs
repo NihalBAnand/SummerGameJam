@@ -15,12 +15,14 @@ public class BattleManager : MonoBehaviour
     GameObject temp;
     public int enemies;
     public int ppl;
+    public int ranged;
     int amount = 0;
     int xpos;
     int ypos;
     public int turn;
     public List<String> positions = new List<string>();
     public List<GameObject> players = new List<GameObject>();
+    public Sprite rangedSprite;
     String posString;
     public int turnCycle = 0;
     public int globTurn;
@@ -32,6 +34,8 @@ public class BattleManager : MonoBehaviour
         enemies = GlobalController.enemies;
         ppl = GlobalController.partymembers;
         turn = GlobalController.turn;
+        ranged = GlobalController.rangedPlayers;
+        ppl += ranged;
         Debug.Log(ppl);
         SpawnParty();
         SpawnEnemies();
@@ -108,7 +112,13 @@ public class BattleManager : MonoBehaviour
                 posString = xpos.ToString() + "," + ypos.ToString();
                 xy *= -1;
             }
+           
             temp = Instantiate(partyMember, new Vector3(xpos, ypos), Quaternion.identity);
+            if (amount < ranged)
+            {
+                temp.GetComponent<SpriteRenderer>().sprite = rangedSprite;
+                temp.GetComponent<MeleePlayerBattleController>().ranged = true;
+            }
             players.Add(temp);
             positions.Add(posString);
             amount++;
@@ -124,7 +134,6 @@ public class BattleManager : MonoBehaviour
             GlobalController.turn = 0;
             turn = GlobalController.turn;
             GlobalController.turnCycle += 1;
-
         }
 
         else if (GlobalController.turn != turn)

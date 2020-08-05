@@ -392,8 +392,13 @@ MonoBehaviour:
   enemie: {fileID: 3699502839044568885, guid: 391180309882cd64db64227cacb97b60, type: 3}
   enemies: 0
   ppl: 0
+  ranged: 0
   turn: 0
+  positions: []
   players: []
+  rangedSprite: {fileID: 21300000, guid: b6e1ba44dfbef7143b8f073b4bbd9b0a, type: 3}
+  turnCycle: 0
+  globTurn: 0
 --- !u!4 &2019453579
 Transform:
   m_ObjectHideFlags: 0

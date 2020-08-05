@@ -6,6 +6,7 @@ public class GlobalController : MonoBehaviour
 {
     public static GlobalController i;
     public static int partymembers;
+    public static int rangedPlayers;
     public static int turn;
     public static int enemies;
     public static int turnCycle;
@@ -23,6 +24,7 @@ public class GlobalController : MonoBehaviour
         enemies = 2;
         turn = 0;
         turnCycle = 0;
+        rangedPlayers = 1;
     }
     
 }

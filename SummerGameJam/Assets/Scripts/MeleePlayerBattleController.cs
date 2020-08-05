@@ -27,6 +27,7 @@ public class MeleePlayerBattleController : MonoBehaviour
 
     public Collider2D colidepos;
 
+    public bool ranged = false;
     public bool enemyAdj = false;
     public bool playerAdj = false;
 
@@ -180,23 +181,41 @@ public class MeleePlayerBattleController : MonoBehaviour
     }
 
     void Attack()
-    {
-        if(adjEnemies.Count > 0)
+    {   if (ranged == false)
         {
-            enemyAdj = true;
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (enemyAdj)
+            if (adjEnemies.Count > 0)
             {
-                foreach (GameObject e in adjEnemies)
-                {
-                    e.GetComponent<EnemyBattleScript>().health -= dmg;
-                    attacked = true;
-                    Debug.Log(e.GetComponent<EnemyBattleScript>().health);
-                }
-                
+                enemyAdj = true;
             }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (enemyAdj)
+                {
+                    foreach (GameObject e in adjEnemies)
+                    {
+                        e.GetComponent<EnemyBattleScript>().health -= dmg;
+                        attacked = true;
+                        Debug.Log(e.GetComponent<EnemyBattleScript>().health);
+                    }
+
+                }
+            }
+        }
+        else
+        {
+            
+            BattleManager battleManager = GameObject.Find("BattleStart").GetComponent<BattleManager>();
+            GameObject target = battleManager.players[0];
+            float minDist = Vector3.Distance(battleManager.players[0].transform.position, gameObject.transform.position);
+            foreach(GameObject g in battleManager.players)
+            {
+
+               if(g.GetComponent<EnemyBattleScript>() != null && Vector3.Distance(g.transform.position, gameObject.transform.position)<minDist)
+                {
+                    target = g;
+                }
+            }
+            target.GetComponent<EnemyBattleScript>().health -= dmg;
         }
     }
 
