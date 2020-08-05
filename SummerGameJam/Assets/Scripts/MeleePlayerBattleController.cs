@@ -100,6 +100,8 @@ public class MeleePlayerBattleController : MonoBehaviour
     public void EndTurn()
     {
         GlobalController.turn += 1;
+        attacked = false;
+        moved = 0;
         //currentCollisions.Clear();
     }
 

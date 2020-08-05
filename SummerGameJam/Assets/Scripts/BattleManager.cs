@@ -127,14 +127,13 @@ public class BattleManager : MonoBehaviour
 
         else if (GlobalController.turn > turn || GlobalController.turn < turn)
         {
-
-
             players[turn].GetComponent<Turn>().isTurn = false;
             Debug.Log("turn done");
             players[GlobalController.turn].GetComponent<Turn>().isTurn = true;
             turn = GlobalController.turn;
         }
-     
+        players[GlobalController.turn].GetComponent<Turn>().isTurn = true;
+
     }
     void scramble()
     {

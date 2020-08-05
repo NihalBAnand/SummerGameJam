@@ -122,6 +122,7 @@ public class EnemyBattleScript : MonoBehaviour
         }
         GlobalController.turn += 1;
         isTurn = false;
+        gameObject.GetComponent<Turn>().isTurn = false;
         atEnemy = false;
         moved = 0;
         selected = false;
