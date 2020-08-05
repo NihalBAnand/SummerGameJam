@@ -23,6 +23,7 @@ public class BattleManager : MonoBehaviour
     public List<GameObject> players = new List<GameObject>();
     String posString;
     public int turnCycle = 0;
+    public int globTurn;
 
   
     void Start()
@@ -34,7 +35,7 @@ public class BattleManager : MonoBehaviour
         Debug.Log(ppl);
         SpawnParty();
         SpawnEnemies();
-        //scramble();
+        scramble();
         players[0].GetComponent<Turn>().isTurn = true;
     }
 
@@ -73,6 +74,7 @@ public class BattleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        globTurn = GlobalController.turn;
         endCondition();
         handleTurn();
     }
@@ -125,7 +127,7 @@ public class BattleManager : MonoBehaviour
 
         }
 
-        else if (GlobalController.turn > turn || GlobalController.turn < turn)
+        else if (GlobalController.turn != turn)
         {
             players[turn].GetComponent<Turn>().isTurn = false;
             Debug.Log("turn done");

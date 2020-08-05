@@ -70,14 +70,14 @@ public class MeleePlayerBattleController : MonoBehaviour
         //DetectObjects();
         if (isTurn)
         {
-          if(GlobalController.turnCycle == 0 && GlobalController.turn == 0)
+          /*if(GlobalController.turnCycle == 0 && GlobalController.turn == 0)
             {
                 
                 if (Random.Range(1,players.Count) == 1)
                 {
                     EndTurn();
                 }
-            }
+            }*/
             if (moved < speed && inZone == false )
                 Movement();
             else if(moved < speed)
