@@ -65,7 +65,7 @@ public class MeleePlayerBattleController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        isTurn = gameObject.GetComponent<Turn>().isTurn;
         checkHealth();
         //DetectObjects();
         if (isTurn)
@@ -219,6 +219,10 @@ public class MeleePlayerBattleController : MonoBehaviour
     }
     String col(Collider2D collider)
     {
+        if(collider == null)
+        {
+            return "none";
+        }
         Vector3 otherpos = collider.attachedRigidbody.transform.position;
         Vector3 myPos = gameObject.transform.position;
         Vector3 checkPos;

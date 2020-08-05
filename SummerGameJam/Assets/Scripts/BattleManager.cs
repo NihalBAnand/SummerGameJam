@@ -34,16 +34,8 @@ public class BattleManager : MonoBehaviour
         Debug.Log(ppl);
         SpawnParty();
         SpawnEnemies();
-        scramble();
-        try
-        {
-            players[0].GetComponent<MeleePlayerBattleController>().isTurn = true;
-        }
-        catch(Exception)
-        {
-            players[0].GetComponent<EnemyBattleScript>().isTurn = true;
-        }
-
+        //scramble();
+        players[0].GetComponent<Turn>().isTurn = true;
     }
 
     void SpawnEnemies()
@@ -123,8 +115,10 @@ public class BattleManager : MonoBehaviour
     }
     void handleTurn()
     {
+
+
         if (GlobalController.turn >= players.Count)
-        { 
+        {
             GlobalController.turn = 0;
             turn = GlobalController.turn;
             GlobalController.turnCycle += 1;
@@ -133,28 +127,11 @@ public class BattleManager : MonoBehaviour
 
         else if (GlobalController.turn > turn || GlobalController.turn < turn)
         {
-            
-            if (players[turn].GetComponent<MeleePlayerBattleController>() != null)
-            {
-                players[turn].GetComponent<MeleePlayerBattleController>().isTurn = false;
-            }
-            else
-            {
-                players[turn].GetComponent<EnemyBattleScript>().isTurn = false;
-                Debug.Log("turn done");
-                
-            }
-            if (players[GlobalController.turn].GetComponent<MeleePlayerBattleController>() != null)
-            {
-                players[GlobalController.turn].GetComponent<MeleePlayerBattleController>().isTurn = true;
 
-            }
-            else
-            {
 
-                players[GlobalController.turn].GetComponent<EnemyBattleScript>().isTurn = true;
-            }
-            
+            players[turn].GetComponent<Turn>().isTurn = false;
+            Debug.Log("turn done");
+            players[GlobalController.turn].GetComponent<Turn>().isTurn = true;
             turn = GlobalController.turn;
         }
      

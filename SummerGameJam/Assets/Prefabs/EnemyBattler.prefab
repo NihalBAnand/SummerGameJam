@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3699502839044568882}
   - component: {fileID: 3261470749435625451}
   - component: {fileID: 7627938802208365444}
+  - component: {fileID: -795718976967961776}
   m_Layer: 0
   m_Name: EnemyBattler
   m_TagString: enemy
@@ -101,9 +102,28 @@ MonoBehaviour:
   speed: 4
   moved: 0
   isTurn: 0
-  player: {fileID: 0}
+  player: {x: 0, y: 0, z: 0}
   Activeplayer: {fileID: 0}
-  battleStart: {fileID: 0}
+  battleManager: {fileID: 0}
+  inZone: 0
+  currentCollisions: []
+  enemyDirections: []
+  colidepos: {fileID: 0}
+  adjenemy: 0
+  atEnemy: 0
+  moving: 0
+  selected: 0
+  xy: -1
+  dir: 00000000000000000000000000000000
+  lastDir: 
+  tempStr:
+  - R
+  - L
+  - U
+  - D
+  moveText: {fileID: 0}
+  alert: {fileID: 0}
+  hpText: {fileID: 0}
 --- !u!61 &3261470749435625451
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -151,3 +171,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-795718976967961776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3699502839044568885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f07dad89811cc74da8b1bc489934722, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

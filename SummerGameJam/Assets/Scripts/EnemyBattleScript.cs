@@ -62,6 +62,7 @@ public class EnemyBattleScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isTurn = gameObject.GetComponent<Turn>().isTurn;
         checkHealth();
         
         if (moved >= speed || atEnemy == true)
@@ -128,14 +129,12 @@ public class EnemyBattleScript : MonoBehaviour
         {
             dir[i] = 0;
         }
+        
     }
     void Move()
     {
         movePos(moveDir());
         xy*=-1;
-        BoxCollider2D box = GetComponent<BoxCollider2D>(); 
-        box.size = new Vector3(box.size.x -.1f, box.size.y - .1f);
-        box.size = new Vector3(box.size.x +.1f, box.size.y + .1f);
         Thread.Sleep(200);
     }
 
