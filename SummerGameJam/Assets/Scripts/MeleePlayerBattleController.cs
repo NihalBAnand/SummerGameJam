@@ -203,19 +203,22 @@ public class MeleePlayerBattleController : MonoBehaviour
         }
         else
         {
-            
-            BattleManager battleManager = GameObject.Find("BattleStart").GetComponent<BattleManager>();
-            GameObject target = battleManager.players[0];
-            float minDist = Vector3.Distance(battleManager.players[0].transform.position, gameObject.transform.position);
-            foreach(GameObject g in battleManager.players)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-
-               if(g.GetComponent<EnemyBattleScript>() != null && Vector3.Distance(g.transform.position, gameObject.transform.position)<minDist)
+                BattleManager battleManager = GameObject.Find("BattleStart").GetComponent<BattleManager>();
+                GameObject target = battleManager.players[0];
+                float minDist = 1000000000000000;
+                foreach (GameObject g in battleManager.players)
                 {
-                    target = g;
+
+                    if (g.GetComponent<EnemyBattleScript>() != null && Vector3.Distance(g.transform.position, gameObject.transform.position) < minDist)
+                    {
+                        target = g;
+                        minDist = Vector3.Distance(g.transform.position, gameObject.transform.position);
+                    }
                 }
+                target.GetComponent<EnemyBattleScript>().health -= dmg;
             }
-            target.GetComponent<EnemyBattleScript>().health -= dmg;
         }
     }
 
