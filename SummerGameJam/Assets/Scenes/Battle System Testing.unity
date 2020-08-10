@@ -390,6 +390,8 @@ MonoBehaviour:
   partyMember: {fileID: 7517100502189430528, guid: f84a74734327d1f44a6d7a6f94d8bdda,
     type: 3}
   enemie: {fileID: 3699502839044568885, guid: 391180309882cd64db64227cacb97b60, type: 3}
+  StaticObj: {fileID: 2883337218938069478, guid: 0bf279f353d0dc240b6ad3f713048361,
+    type: 3}
   enemies: 0
   ppl: 0
   ranged: 0

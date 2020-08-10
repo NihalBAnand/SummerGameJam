@@ -150,6 +150,12 @@ public class EnemyBattleScript : MonoBehaviour
         while (battleManager.players[j].GetComponent<MeleePlayerBattleController>() == null)
         {
             j++;
+            if (j == battleManager.players.Count)
+            {
+                selected = true;
+                moved = speed;
+                return;
+            }
         }
         Activeplayer = battleManager.players[j].GetComponent<MeleePlayerBattleController>();
         float dist = Vector3.Distance(battleManager.players[j].transform.position, gameObject.transform.position);
@@ -186,6 +192,10 @@ public class EnemyBattleScript : MonoBehaviour
     }
     String col(Collider2D collider)
     {
+        if(collider == null)
+        {
+            return "none";
+        }
         UnityEngine.Vector3 otherpos = collider.attachedRigidbody.transform.position;
         UnityEngine.Vector3 myPos = gameObject.transform.position;
         UnityEngine.Vector3 checkPos;
@@ -255,7 +265,7 @@ public class EnemyBattleScript : MonoBehaviour
     }
     void checkAllcol()
     {
-        if (!currentCollisions.Contains(colidepos.attachedRigidbody.transform.position))
+        if (colidepos!= null && !currentCollisions.Contains(colidepos.attachedRigidbody.transform.position))
         {
             currentCollisions.Add(colidepos.attachedRigidbody.transform.position);
         }

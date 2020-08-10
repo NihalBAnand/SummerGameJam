@@ -102,6 +102,7 @@ public class MeleePlayerBattleController : MonoBehaviour
     {
         GlobalController.turn += 1;
         attacked = false;
+        isTurn = false;
         moved = 0;
         //currentCollisions.Clear();
     }
@@ -181,7 +182,9 @@ public class MeleePlayerBattleController : MonoBehaviour
     }
 
     void Attack()
-    {   if (ranged == false)
+    {
+        Vector3 ePos;
+        if (ranged == false)
         {
             if (adjEnemies.Count > 0)
             {
@@ -193,6 +196,11 @@ public class MeleePlayerBattleController : MonoBehaviour
                 {
                     foreach (GameObject e in adjEnemies)
                     {
+                        ePos = e.transform.position;
+                        if(e.GetComponent<EnemyBattleScript>().health - dmg == 0)
+                        {
+                            currentCollisions.Remove(ePos);
+                        }
                         e.GetComponent<EnemyBattleScript>().health -= dmg;
                         attacked = true;
                         Debug.Log(e.GetComponent<EnemyBattleScript>().health);

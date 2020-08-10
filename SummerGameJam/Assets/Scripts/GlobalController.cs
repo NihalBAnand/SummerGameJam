@@ -10,6 +10,7 @@ public class GlobalController : MonoBehaviour
     public static int turn;
     public static int enemies;
     public static int turnCycle;
+    public static int objs;
 
     void Awake()
     {
@@ -25,6 +26,7 @@ public class GlobalController : MonoBehaviour
         turn = 0;
         turnCycle = 0;
         rangedPlayers = 1;
+        objs = 1;
     }
     
 }

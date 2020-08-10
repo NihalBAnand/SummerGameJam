@@ -12,6 +12,7 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     public GameObject partyMember;
     public GameObject enemie;
+    public GameObject StaticObj;
     GameObject temp;
     public int enemies;
     public int ppl;
@@ -26,6 +27,8 @@ public class BattleManager : MonoBehaviour
     String posString;
     public int turnCycle = 0;
     public int globTurn;
+    public int objs;
+
 
   
     void Start()
@@ -35,11 +38,13 @@ public class BattleManager : MonoBehaviour
         ppl = GlobalController.partymembers;
         turn = GlobalController.turn;
         ranged = GlobalController.rangedPlayers;
+        objs = GlobalController.objs;
         ppl += ranged;
         Debug.Log(ppl);
         SpawnParty();
         SpawnEnemies();
         scramble();
+        spawnObjs();
         players[0].GetComponent<Turn>().isTurn = true;
     }
 
@@ -93,6 +98,7 @@ public class BattleManager : MonoBehaviour
 
     void SpawnParty()
     {
+        amount = 0;
         while (amount < ppl)
         {
             xpos = Random.Range(-5, 0);
@@ -125,6 +131,32 @@ public class BattleManager : MonoBehaviour
 
         }
     }
+    void spawnObjs()
+    {
+        for(int i =0; i<objs; i++)
+        {
+            xpos = Random.Range(-5, 0);
+            ypos = Random.Range(-5, 0);
+            posString = xpos.ToString() + "," + ypos.ToString();
+            int xy = -1;
+            while (positions.Contains(posString))
+            {
+                if (xy > 0)
+                {
+                    xpos += 1;
+                }
+                else
+                {
+                    ypos += 1;
+                }
+                posString = xpos.ToString() + "," + ypos.ToString();
+                xy *= -1;
+            }
+
+            temp = Instantiate(StaticObj, new Vector3(xpos, ypos), Quaternion.identity);
+        }
+        positions.Add(posString);
+    }
     void handleTurn()
     {
 
@@ -148,7 +180,7 @@ public class BattleManager : MonoBehaviour
     }
     void scramble()
     {
-        for (int i = 1; i < players.Count; i++)
+        for (int i = 0; i < players.Count; i++)
         { 
             GameObject temp = players[i];
             int randomIndex = Random.Range(i, players.Count);
