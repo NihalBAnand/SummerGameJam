@@ -146,14 +146,18 @@ public class EnemyBattleScript : MonoBehaviour
     void selectTarget()
     {
         battleManager = GameObject.Find("BattleStart").GetComponent<BattleManager>();
-        if (battleManager.players[0].GetComponent<MeleePlayerBattleController>() != null) 
-            Activeplayer = battleManager.players[0].GetComponent<MeleePlayerBattleController>();
-        float dist = Vector3.Distance(battleManager.players[0].transform.position, gameObject.transform.position);
-        player = battleManager.players[0].transform.position;
-        float mindist =  dist;
-        for (int i = 1; i< battleManager.players.Count; i++)
+        int j = 0;
+        while (battleManager.players[j].GetComponent<MeleePlayerBattleController>() == null)
         {
-            if(battleManager.players[i].GetComponent<MeleePlayerBattleController>() != null)
+            j++;
+        }
+        Activeplayer = battleManager.players[j].GetComponent<MeleePlayerBattleController>();
+        float dist = Vector3.Distance(battleManager.players[j].transform.position, gameObject.transform.position);
+        player = battleManager.players[j].transform.position;
+        float mindist = dist;
+        for (int i = j; i < battleManager.players.Count; i++)
+        {
+            if (battleManager.players[i].GetComponent<MeleePlayerBattleController>() != null)
             {
                 dist = Vector3.Distance(battleManager.players[i].transform.position, gameObject.transform.position);
                 if (mindist > dist)
