@@ -56,7 +56,41 @@ public class BattleManager : MonoBehaviour
             }
             else if (type == "partyPosition")
             {
-                parsedPlayers.Add(Instantiate(partyMember, new Vector3(xpos, ypos), Quaternion.identity));
+                amount = 0;
+                while (amount < ppl)
+                {
+                    posString = xpos.ToString() + "," + ypos.ToString();
+                    int xy = -1;
+                    while (positions.Contains(posString))
+                    {
+                        if (xy > 0)
+                        {
+                            xpos += 1;
+                        }
+                        else
+                        {
+                            ypos += 1;
+                        }
+                        posString = xpos.ToString() + "," + ypos.ToString();
+                        xy *= -1;
+                    }
+                
+                    temp = Instantiate(partyMember, new Vector3(xpos, ypos), Quaternion.identity);
+                    if (amount < ranged)
+                    {
+                        temp.GetComponent<SpriteRenderer>().sprite = rangedSprite;
+                        temp.GetComponent<MeleePlayerBattleController>().ranged = true;
+                    }
+                    else if (amount < (ranged + healers))
+                    {
+                        temp.GetComponent<MeleePlayerBattleController>().healer = true;
+                        temp.GetComponent<SpriteRenderer>().sprite = healerSprite;
+                    }
+                    players.Add(temp);
+                    positions.Add(posString);
+                    amount++;
+
+                }
             }
         }
     }
