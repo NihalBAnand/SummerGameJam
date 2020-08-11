@@ -24,6 +24,9 @@ public class battleBuilder : MonoBehaviour
 
     void parseToFile()
     {
-
+	string path = Application.dataPath + "/Battles/" + levelName + ".txt";
+	
+	File.WriteAllText(path, "TEST \n\n");
+	
     }
 }
