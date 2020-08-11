@@ -25,8 +25,10 @@ public class MeleePlayerBattleController : MonoBehaviour
     public bool inZone = true;
     public bool updateCurrent = false;
 
+
     public Collider2D colidepos;
 
+    public bool healer = false;
     public bool ranged = false;
     public bool enemyAdj = false;
     public bool playerAdj = false;
@@ -184,7 +186,7 @@ public class MeleePlayerBattleController : MonoBehaviour
     void Attack()
     {
         Vector3 ePos;
-        if (ranged == false)
+        if (ranged == false && healer ==  false)
         {
             if (adjEnemies.Count > 0)
             {
@@ -209,7 +211,7 @@ public class MeleePlayerBattleController : MonoBehaviour
                 }
             }
         }
-        else
+        else if(ranged == true && healer == false)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -228,6 +230,26 @@ public class MeleePlayerBattleController : MonoBehaviour
                 target.GetComponent<EnemyBattleScript>().health -= dmg;
             }
         }
+        else if(ranged == false && healer == true)
+        {
+            if (adjPlayers.Count > 0)
+            {
+                playerAdj= true;
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (playerAdj)
+                {
+                    foreach (GameObject e in adjPlayers)
+                    { 
+                        e.GetComponent<MeleePlayerBattleController>().hp += dmg;
+                        attacked = true;
+                        Debug.Log(e.GetComponent<MeleePlayerBattleController>().hp);
+                    }
+
+                }
+            }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -239,8 +261,9 @@ public class MeleePlayerBattleController : MonoBehaviour
         }
         if (!adjEnemies.Contains(collision.gameObject))
         {
-            if(collision.gameObject.GetComponent<EnemyBattleScript>() != null)
+            if (collision.gameObject.GetComponent<EnemyBattleScript>() != null)
                 adjEnemies.Add(collision.gameObject);
+            else if (collision.gameObject.GetComponent<MeleePlayerBattleController>() != null) adjPlayers.Add(collision.gameObject); 
         }
      
         inZone = true;

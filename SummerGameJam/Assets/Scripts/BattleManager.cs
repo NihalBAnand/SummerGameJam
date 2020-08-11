@@ -21,13 +21,15 @@ public class BattleManager : MonoBehaviour
     int xpos;
     int ypos;
     public int turn;
-    public List<String> positions = new List<string>();
+    public List<string> positions = new List<string>();
     public List<GameObject> players = new List<GameObject>();
     public Sprite rangedSprite;
+    public Sprite healerSprite;
     String posString;
     public int turnCycle = 0;
     public int globTurn;
     public int objs;
+    public int healers;
 
 
   
@@ -39,7 +41,9 @@ public class BattleManager : MonoBehaviour
         turn = GlobalController.turn;
         ranged = GlobalController.rangedPlayers;
         objs = GlobalController.objs;
+        healers = GlobalController.healers;
         ppl += ranged;
+        ppl += healers;
         Debug.Log(ppl);
         SpawnParty();
         SpawnEnemies();
@@ -124,6 +128,11 @@ public class BattleManager : MonoBehaviour
             {
                 temp.GetComponent<SpriteRenderer>().sprite = rangedSprite;
                 temp.GetComponent<MeleePlayerBattleController>().ranged = true;
+            }
+            else if (amount < (ranged + healers))
+            {
+                temp.GetComponent<MeleePlayerBattleController>().healer = true;
+                Debug.Log("Healer");
             }
             players.Add(temp);
             positions.Add(posString);
