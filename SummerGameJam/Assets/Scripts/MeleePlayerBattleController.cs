@@ -19,6 +19,7 @@ public class MeleePlayerBattleController : MonoBehaviour
     public int moved = 0;
     public int dmg   = 10;
     public int hp    = 100;
+    public int maxHp = 50;
     public bool isTurn = false;
     public bool isEnemyTurn = false;
     public bool attacked = false;
@@ -50,6 +51,7 @@ public class MeleePlayerBattleController : MonoBehaviour
     void Start()
     {
         hp = 10;
+        maxHp = 50;
         inZone = false;
         moveText = GameObject.FindGameObjectWithTag("Moves").GetComponent<Text>();
         alert = GameObject.FindGameObjectWithTag("alert").GetComponent<Text>();
@@ -93,7 +95,7 @@ public class MeleePlayerBattleController : MonoBehaviour
             if (!attacked)
                 Attack();
             UpdateUI();
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetKeyDown(KeyCode.E))
                 EndTurn();
 
         }
@@ -228,6 +230,7 @@ public class MeleePlayerBattleController : MonoBehaviour
                     }
                 }
                 target.GetComponent<EnemyBattleScript>().health -= dmg;
+                attacked = true;
             }
         }
         else if(ranged == false && healer == true)
@@ -241,8 +244,12 @@ public class MeleePlayerBattleController : MonoBehaviour
                 if (playerAdj)
                 {
                     foreach (GameObject e in adjPlayers)
-                    { 
-                        e.GetComponent<MeleePlayerBattleController>().hp += dmg;
+                    {   if(e.GetComponent<MeleePlayerBattleController>().hp + dmg< maxHp)
+                            e.GetComponent<MeleePlayerBattleController>().hp += dmg;
+                        else
+                        {
+                            e.GetComponent<MeleePlayerBattleController>().hp = maxHp;
+                        }
                         attacked = true;
                         Debug.Log(e.GetComponent<MeleePlayerBattleController>().hp);
                     }
@@ -342,6 +349,9 @@ public class MeleePlayerBattleController : MonoBehaviour
         }
         if (adjEnemies.Contains(other.gameObject))
             adjEnemies.Remove(other.gameObject);
+        if (adjPlayers.Contains(other.gameObject))
+            adjPlayers.Remove(other.gameObject);
+
         if (!isTurn)
         {
             //currentCollisions.Clear();

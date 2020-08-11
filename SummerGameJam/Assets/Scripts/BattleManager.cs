@@ -47,7 +47,7 @@ public class BattleManager : MonoBehaviour
         Debug.Log(ppl);
         SpawnParty();
         SpawnEnemies();
-        scramble();
+        //scramble();
         spawnObjs();
         players[0].GetComponent<Turn>().isTurn = true;
     }
@@ -132,7 +132,7 @@ public class BattleManager : MonoBehaviour
             else if (amount < (ranged + healers))
             {
                 temp.GetComponent<MeleePlayerBattleController>().healer = true;
-                Debug.Log("Healer");
+                temp.GetComponent<SpriteRenderer>().sprite = healerSprite;
             }
             players.Add(temp);
             positions.Add(posString);

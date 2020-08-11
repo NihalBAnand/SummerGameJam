@@ -399,8 +399,11 @@ MonoBehaviour:
   positions: []
   players: []
   rangedSprite: {fileID: 21300000, guid: b6e1ba44dfbef7143b8f073b4bbd9b0a, type: 3}
+  healerSprite: {fileID: 21300000, guid: fedb1fb76e630b64bb8b2ab3b7e21f9c, type: 3}
   turnCycle: 0
   globTurn: 0
+  objs: 0
+  healers: 0
 --- !u!4 &2019453579
 Transform:
   m_ObjectHideFlags: 0
