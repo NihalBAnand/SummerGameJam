@@ -12,6 +12,7 @@ public class GlobalController : MonoBehaviour
     public static int turnCycle;
     public static int objs;
     public static int healers;
+    public static string battle;
 
     void Awake()
     {
@@ -29,6 +30,7 @@ public class GlobalController : MonoBehaviour
         rangedPlayers = 1;
         objs = 1;
         healers = 1;
+        battle = "01a";
     }
     
 }

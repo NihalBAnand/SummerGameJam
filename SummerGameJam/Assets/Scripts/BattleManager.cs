@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.VFX;
 using Random = UnityEngine.Random;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class BattleManager : MonoBehaviour
 {
@@ -31,11 +32,38 @@ public class BattleManager : MonoBehaviour
     public int objs;
     public int healers;
 
+    public List<GameObject> parsedObjs = new List<GameObject>();
+    public List<GameObject> parsedPlayers = new List<GameObject>();
+    public List<GameObject> parsedEnemies = new List<GameObject>();
 
+    void parseText()
+    {
+        StreamReader reader = File.OpenText(Application.dataPath + "/Battles/" + GlobalController.battle + ".txt");
+        string line;
+        while ((line = reader.ReadLine()) != null)
+        {
+            string[] items = line.Split(',');
+            string type = items[0];
+            float xpos = float.Parse(items[1]);
+            float ypos = float.Parse(items[2]);
+            if (type == "enemy")
+            {
+                parsedEnemies.Add(Instantiate(enemie, new Vector3(xpos, ypos), Quaternion.identity));
+            }
+            else if (type == "obj")
+            {
+                parsedObjs.Add(Instantiate(StaticObj, new Vector3(xpos, ypos), Quaternion.identity));
+            }
+            else if (type == "partyPosition")
+            {
+                parsedPlayers.Add(Instantiate(partyMember, new Vector3(xpos, ypos), Quaternion.identity));
+            }
+        }
+    }
   
     void Start()
     {
-       
+        
         enemies = GlobalController.enemies;
         ppl = GlobalController.partymembers;
         turn = GlobalController.turn;
