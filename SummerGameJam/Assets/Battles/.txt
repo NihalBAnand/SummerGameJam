@@ -1,0 +1,10 @@
+enemy
+enemy
+enemy
+obj
+obj
+obj
+obj
+obj
+obj
+partyPosition
