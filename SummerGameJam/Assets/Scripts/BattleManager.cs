@@ -48,10 +48,7 @@ public class BattleManager : MonoBehaviour
             float ypos = float.Parse(items[2]);
             if (type == "enemy")
             {
-
-                players.Add(Instantiate(enemie, new Vector3(xpos, ypos), Quaternion.identity));
-                enemies += 1;
-
+                parsedEnemies.Add(Instantiate(enemie, new Vector3(xpos, ypos), Quaternion.identity));
             }
             else if (type == "obj")
             {
@@ -60,11 +57,10 @@ public class BattleManager : MonoBehaviour
             else if (type == "partyPosition")
             {
                 amount = 0;
-                int xy = -1;
                 while (amount < ppl)
                 {
                     posString = xpos.ToString() + "," + ypos.ToString();
-                    
+                    int xy = -1;
                     while (positions.Contains(posString))
                     {
                         if (xy > 0)
@@ -76,7 +72,7 @@ public class BattleManager : MonoBehaviour
                             ypos += 1;
                         }
                         posString = xpos.ToString() + "," + ypos.ToString();
-                       
+                        xy *= -1;
                     }
                 
                     temp = Instantiate(partyMember, new Vector3(xpos, ypos), Quaternion.identity);
@@ -93,7 +89,6 @@ public class BattleManager : MonoBehaviour
                     players.Add(temp);
                     positions.Add(posString);
                     amount++;
-                    xy *= -1;
 
                 }
             }
@@ -102,7 +97,8 @@ public class BattleManager : MonoBehaviour
   
     void Start()
     {
-        enemies = 0;
+        
+        enemies = GlobalController.enemies;
         ppl = GlobalController.partymembers;
         turn = GlobalController.turn;
         ranged = GlobalController.rangedPlayers;
@@ -111,11 +107,10 @@ public class BattleManager : MonoBehaviour
         ppl += ranged;
         ppl += healers;
         Debug.Log(ppl);
-        parseText();
-        /*SpawnParty();
-        SpawnEnemies();*/
-        scramble();
-/*        spawnObjs();*/
+        SpawnParty();
+        SpawnEnemies();
+        //scramble();
+        spawnObjs();
         players[0].GetComponent<Turn>().isTurn = true;
     }
 
@@ -236,8 +231,8 @@ public class BattleManager : MonoBehaviour
     void handleTurn()
     {
 
-        
-     /*   if (GlobalController.turn >= players.Count)
+
+        if (GlobalController.turn >= players.Count)
         {
             GlobalController.turn = 0;
             turn = GlobalController.turn;
@@ -251,14 +246,7 @@ public class BattleManager : MonoBehaviour
             players[GlobalController.turn].GetComponent<Turn>().isTurn = true;
             turn = GlobalController.turn;
         }
-        players[GlobalController.turn].GetComponent<Turn>().isTurn = true;*/
-      /*  for(int i = 0; i < players.Count; i++)
-        {
-            if (i != GlobalController.turn)
-            {
-                players[i].GetComponent<Turn>().isTurn = false;
-            }
-        }*/
+        players[GlobalController.turn].GetComponent<Turn>().isTurn = true;
 
     }
     void scramble()

@@ -104,14 +104,7 @@ public class MeleePlayerBattleController : MonoBehaviour
 
     public void EndTurn()
     {
-        BattleManager battleManager = GameObject.Find("BattleStart").GetComponent<BattleManager>();
         GlobalController.turn += 1;
-        if(GlobalController.turn>=battleManager.players.Count) 
-        {
-            GlobalController.turn = 0;
-        }
-        battleManager.players[GlobalController.turn].GetComponent<Turn>().isTurn = true;
-        gameObject.GetComponent<Turn>().isTurn = false;
         attacked = false;
         isTurn = false;
         moved = 0;
@@ -186,16 +179,6 @@ public class MeleePlayerBattleController : MonoBehaviour
         if (hp <= 0)
         {
             BattleManager battleManager = GameObject.Find("BattleStart").GetComponent<BattleManager>();
-            if (isTurn)
-            {
-                GlobalController.turn += 1;
-                if (GlobalController.turn >= battleManager.players.Count)
-                {
-                    GlobalController.turn = 0;
-                }
-
-                battleManager.players[GlobalController.turn].GetComponent<Turn>().isTurn = true;
-            }
             battleManager.players.Remove(gameObject);
             battleManager.ppl -= 1;
             GameObject.Destroy(gameObject);
@@ -204,8 +187,6 @@ public class MeleePlayerBattleController : MonoBehaviour
 
     void Attack()
     {
-        BattleManager battleManager = GameObject.Find("BattleStart").GetComponent<BattleManager>();
-        int count = battleManager.players.Count;
         Vector3 ePos;
         if (ranged == false && healer ==  false)
         {
@@ -213,7 +194,7 @@ public class MeleePlayerBattleController : MonoBehaviour
             {
                 enemyAdj = true;
             }
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (enemyAdj)
                 {
@@ -234,9 +215,9 @@ public class MeleePlayerBattleController : MonoBehaviour
         }
         else if(ranged == true && healer == false)
         {
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                
+                BattleManager battleManager = GameObject.Find("BattleStart").GetComponent<BattleManager>();
                 GameObject target = battleManager.players[0];
                 float minDist = 1000000000000000;
                 foreach (GameObject g in battleManager.players)
@@ -252,19 +233,13 @@ public class MeleePlayerBattleController : MonoBehaviour
                 attacked = true;
             }
         }
-       
-        if (attacked == true && count != battleManager.players.Count)
-        {
-            Debug.Log("yeet");
-            GlobalController.turn = battleManager.players.Count -1;
-        }
-        if(ranged == false && healer == true)
+        else if(ranged == false && healer == true)
         {
             if (adjPlayers.Count > 0)
             {
                 playerAdj= true;
             }
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (playerAdj)
                 {
@@ -282,7 +257,6 @@ public class MeleePlayerBattleController : MonoBehaviour
                 }
             }
         }
-
     }
 
     void OnTriggerEnter2D(Collider2D collision)
