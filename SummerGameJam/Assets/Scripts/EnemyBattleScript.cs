@@ -100,6 +100,17 @@ public class EnemyBattleScript : MonoBehaviour
         {   
 
             battleManager = GameObject.Find("BattleStart").GetComponent<BattleManager>();
+            if (isTurn)
+            {
+                GlobalController.turn += 1;
+                if (GlobalController.turn >= battleManager.players.Count)
+                {
+                    GlobalController.turn = 0;
+                }
+
+                battleManager.players[GlobalController.turn].GetComponent<Turn>().isTurn = true;
+            }
+
             battleManager.players.Remove(gameObject);
             battleManager.enemies -= 1;
             GameObject.Destroy(gameObject);
@@ -120,7 +131,13 @@ public class EnemyBattleScript : MonoBehaviour
                 Activeplayer.hp -= dmg;
             }
         }
+        BattleManager battleManager = GameObject.Find("BattleStart").GetComponent<BattleManager>();
         GlobalController.turn += 1;
+        if (GlobalController.turn >= battleManager.players.Count)
+        {
+            GlobalController.turn = 0;
+        }
+        battleManager.players[GlobalController.turn].GetComponent<Turn>().isTurn = true;
         isTurn = false;
         gameObject.GetComponent<Turn>().isTurn = false;
         atEnemy = false;

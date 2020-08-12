@@ -11,7 +11,7 @@ TagManager:
   - Moves
   - alert
   - hp
-  - partyPosistion
+  - partyPosition
   layers:
   - Default
   - TransparentFX
