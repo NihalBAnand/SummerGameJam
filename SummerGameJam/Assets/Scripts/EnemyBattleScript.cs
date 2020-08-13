@@ -51,8 +51,8 @@ public class EnemyBattleScript : MonoBehaviour
 
         //BattleManager = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         //Activeplayer = battleStart.players[0].GetComponent<MeleePlayerBattleController>();
-        speed = 100;
-        health = 10;
+        speed = 5;
+        health = 50;
         lastDir = "";
 
     }

@@ -20,6 +20,7 @@ public class MeleePlayerBattleController : MonoBehaviour
     public int dmg   = 10;
     public int hp    = 100;
     public int maxHp = 50;
+    public float range = 7; 
     public bool isTurn = false;
     public bool isEnemyTurn = false;
     public bool attacked = false;
@@ -50,7 +51,8 @@ public class MeleePlayerBattleController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hp = 10;
+        speed = 7;
+        hp = 50;
         maxHp = 50;
         inZone = false;
         moveText = GameObject.FindGameObjectWithTag("Moves").GetComponent<Text>();
@@ -95,7 +97,7 @@ public class MeleePlayerBattleController : MonoBehaviour
             if (!attacked)
                 Attack();
             UpdateUI();
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.Return))
                 EndTurn();
 
         }
@@ -213,7 +215,7 @@ public class MeleePlayerBattleController : MonoBehaviour
             {
                 enemyAdj = true;
             }
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (enemyAdj)
                 {
@@ -234,7 +236,7 @@ public class MeleePlayerBattleController : MonoBehaviour
         }
         else if(ranged == true && healer == false)
         {
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 
                 GameObject target = battleManager.players[0];
@@ -248,8 +250,11 @@ public class MeleePlayerBattleController : MonoBehaviour
                         minDist = Vector3.Distance(g.transform.position, gameObject.transform.position);
                     }
                 }
-                target.GetComponent<EnemyBattleScript>().health -= dmg;
-                attacked = true;
+                if (minDist <= range)
+                {
+                    target.GetComponent<EnemyBattleScript>().health -= dmg;
+                    attacked = true;
+                }
             }
         }
        
@@ -264,7 +269,7 @@ public class MeleePlayerBattleController : MonoBehaviour
             {
                 playerAdj= true;
             }
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (playerAdj)
                 {
