@@ -12,6 +12,7 @@ TagManager:
   - alert
   - hp
   - partyPosition
+  - ignore
   layers:
   - Default
   - TransparentFX
