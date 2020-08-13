@@ -13,11 +13,13 @@ public class battleBuilder : MonoBehaviour
     public GameObject enemie;
     public GameObject StaticObj;
     public GameObject partyPos;
+    public bool tabbed = false;
     
     void Start()
     {
         levelName = "01a";
-    }
+        tabbed = false;
+}
 
     // Update is called once per frame
     void Update()
@@ -26,9 +28,10 @@ public class battleBuilder : MonoBehaviour
         {
             parseToFile();
         }
-        if (Input.GetKeyDown(KeyCode.Tilde))
+        if (Input.GetKeyDown(KeyCode.Tab)&& !tabbed)
         {
             parseText();
+            tabbed = true;
         }
     }
 
@@ -39,24 +42,23 @@ public class battleBuilder : MonoBehaviour
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         foreach (GameObject go in allObjects)
         {
-            if (go.tag != "MainCamera")
+            if (go.tag == "MainCamera" || go.tag == "ignore") continue;
+            string name = go.tag;
+            if (name == "Untagged")
             {
-                string name = go.tag;
-                if (name == "Untagged")
-                {
-                    name = "obj";
-                }
-                string strpos;
-                Vector3 pos = go.transform.position;
-                strpos = pos.x.ToString() + "," + pos.y.ToString();
-                File.AppendAllText(path, name + "," + strpos + "\n");
+                name = "obj";
             }
+            string strpos;
+            Vector3 pos = go.transform.position;
+            strpos = ((int)pos.x).ToString() + "," + ((int)pos.y).ToString();
+            File.AppendAllText(path, name + "," + strpos + "\n");
+
 
         }
     }
     void parseText()
     {
-        StreamReader reader = File.OpenText(Application.dataPath + "/Battles/" + GlobalController.battle + ".txt");
+        StreamReader reader = File.OpenText(Application.dataPath + "/Battles/" + levelName + ".txt");
         string line;
         while ((line = reader.ReadLine()) != null)
         {
@@ -77,9 +79,9 @@ public class battleBuilder : MonoBehaviour
             }
             else if (type == "partyPosition")
             {
-               
 
-                
+                temp = (Instantiate(partyPos, new Vector3(xpos, ypos), Quaternion.identity));   
+
             }
         }
     }
