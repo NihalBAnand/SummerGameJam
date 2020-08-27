@@ -36,70 +36,9 @@ public class BattleManager : MonoBehaviour
     public List<GameObject> parsedPlayers = new List<GameObject>();
     public List<GameObject> parsedEnemies = new List<GameObject>();
 
-    void parseText()
-    {
-        StreamReader reader = File.OpenText(Application.dataPath + "/Battles/" + GlobalController.battle + ".txt");
-        string line;
-        while ((line = reader.ReadLine()) != null)
-        {
-            string[] items = line.Split(',');
-            string type = items[0];
-            float xpos = float.Parse(items[1]);
-            float ypos = float.Parse(items[2]);
-            if (type == "enemy")
-            {
+    //public GameObject[,] grid = new GameObject[]
 
-                players.Add(Instantiate(enemie, new Vector3(xpos, ypos), Quaternion.identity));
-                enemies += 1;
-
-            }
-            else if (type == "obj")
-            {
-                parsedObjs.Add(Instantiate(StaticObj, new Vector3(xpos, ypos), Quaternion.identity));
-            }
-            else if (type == "partyPosition")
-            {
-                amount = 0;
-                int xy = -1;
-                while (amount < ppl)
-                {
-                    posString = xpos.ToString() + "," + ypos.ToString();
-                    
-                    while (positions.Contains(posString))
-                    {
-                        if (xy > 0)
-                        {
-                            xpos += 1;
-                        }
-                        else
-                        {
-                            ypos += 1;
-                        }
-                        posString = xpos.ToString() + "," + ypos.ToString();
-                       
-                    }
-                
-                    temp = Instantiate(partyMember, new Vector3(xpos, ypos), Quaternion.identity);
-                    if (amount < ranged)
-                    {
-                        temp.GetComponent<SpriteRenderer>().sprite = rangedSprite;
-                        temp.GetComponent<MeleePlayerBattleController>().ranged = true;
-                    }
-                    else if (amount < (ranged + healers))
-                    {
-                        temp.GetComponent<MeleePlayerBattleController>().healer = true;
-                        temp.GetComponent<SpriteRenderer>().sprite = healerSprite;
-                    }
-                    players.Add(temp);
-                    positions.Add(posString);
-                    amount++;
-                    xy *= -1;
-
-                }
-            }
-        }
-    }
-  
+    
     void Start()
     {
         enemies = 0;
@@ -118,6 +57,74 @@ public class BattleManager : MonoBehaviour
 /*        spawnObjs();*/
         players[0].GetComponent<Turn>().isTurn = true;
     }
+
+    void parseText()
+    {
+        var reference = Resources.Load<TextAsset>("Battles/01a").ToString();
+        
+        foreach (string line in reference.Split('\n'))
+        {
+            if (line != ""){
+                string[] items = line.Split(',');
+                Debug.Log(line);
+                string type = items[0];
+                float xpos = float.Parse(items[1]);
+                float ypos = float.Parse(items[2]);
+                if (type == "enemy")
+                {
+
+                    players.Add(Instantiate(enemie, new Vector3(xpos, ypos), Quaternion.identity));
+                    enemies += 1;
+
+                }
+                else if (type == "obj")
+                {
+                    parsedObjs.Add(Instantiate(StaticObj, new Vector3(xpos, ypos), Quaternion.identity));
+                }
+                else if (type == "partyPosition")
+                {
+                    amount = 0;
+                    int xy = -1;
+                    while (amount < ppl)
+                    {
+                        posString = xpos.ToString() + "," + ypos.ToString();
+                        
+                        while (positions.Contains(posString))
+                        {
+                            if (xy > 0)
+                            {
+                                xpos += 1;
+                            }
+                            else
+                            {
+                                ypos += 1;
+                            }
+                            posString = xpos.ToString() + "," + ypos.ToString();
+                        
+                        }
+                    
+                        temp = Instantiate(partyMember, new Vector3(xpos, ypos), Quaternion.identity);
+                        if (amount < ranged)
+                        {
+                            temp.GetComponent<SpriteRenderer>().sprite = rangedSprite;
+                            temp.GetComponent<MeleePlayerBattleController>().ranged = true;
+                        }
+                        else if (amount < (ranged + healers))
+                        {
+                            temp.GetComponent<MeleePlayerBattleController>().healer = true;
+                            temp.GetComponent<SpriteRenderer>().sprite = healerSprite;
+                        }
+                        players.Add(temp);
+                        positions.Add(posString);
+                        amount++;
+                        xy *= -1;
+
+                    }
+                }
+            }
+        }
+    }
+  
 
     void SpawnEnemies()
     {

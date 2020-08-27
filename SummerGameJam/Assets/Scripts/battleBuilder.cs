@@ -37,7 +37,7 @@ public class battleBuilder : MonoBehaviour
 
     void parseToFile()
     {
-        string path = Application.dataPath + "/Battles/" + levelName + ".txt";
+        string path = Application.dataPath + "/Resources/Battles/" + levelName + ".txt";
         File.WriteAllText(path, "");
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         foreach (GameObject go in allObjects)
@@ -51,7 +51,7 @@ public class battleBuilder : MonoBehaviour
             string strpos;
             Vector3 pos = go.transform.position;
             strpos = ((int)pos.x).ToString() + "," + ((int)pos.y).ToString();
-            File.AppendAllText(path, name + "," + strpos + "\n");
+            File.AppendAllText("\n" + path, name + "," + strpos);
 
 
         }

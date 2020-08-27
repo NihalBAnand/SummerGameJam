@@ -37,7 +37,7 @@ public class EnemyBattleScript : MonoBehaviour
 
 
     public Text moveText;
-    public Text alert;
+    //public Text alert;
     public Text hpText;
 
 
@@ -46,7 +46,7 @@ public class EnemyBattleScript : MonoBehaviour
     void Start()
     {
         moveText = GameObject.FindGameObjectWithTag("Moves").GetComponent<Text>();
-        alert = GameObject.FindGameObjectWithTag("alert").GetComponent<Text>();
+        //alert = GameObject.FindGameObjectWithTag("alert").GetComponent<Text>();
         hpText = GameObject.FindGameObjectWithTag("hp").GetComponent<Text>();
 
         //BattleManager = GameObject.Find("BattleManager").GetComponent<BattleManager>();
@@ -132,12 +132,19 @@ public class EnemyBattleScript : MonoBehaviour
             }
         }
         BattleManager battleManager = GameObject.Find("BattleStart").GetComponent<BattleManager>();
-        GlobalController.turn += 1;
+        /*GlobalController.turn += 1;
         if (GlobalController.turn >= battleManager.players.Count)
         {
             GlobalController.turn = 0;
+        }*/
+        try
+        {
+            battleManager.players[battleManager.players.IndexOf(gameObject) + 1].GetComponent<Turn>().isTurn = true;
         }
-        battleManager.players[GlobalController.turn].GetComponent<Turn>().isTurn = true;
+        catch
+        {
+            battleManager.players[0].GetComponent<Turn>().isTurn = true;
+        }
         isTurn = false;
         gameObject.GetComponent<Turn>().isTurn = false;
         atEnemy = false;

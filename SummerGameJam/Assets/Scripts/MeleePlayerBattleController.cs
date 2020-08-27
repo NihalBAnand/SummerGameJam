@@ -38,7 +38,7 @@ public class MeleePlayerBattleController : MonoBehaviour
     public string type = "melee";
 
     public Text moveText;
-    public Text alert;
+    //public Text alert;
     public Text hpText;
 
     public List<GameObject> adjEnemies = new List<GameObject>();
@@ -56,7 +56,7 @@ public class MeleePlayerBattleController : MonoBehaviour
         maxHp = 50;
         inZone = false;
         moveText = GameObject.FindGameObjectWithTag("Moves").GetComponent<Text>();
-        alert = GameObject.FindGameObjectWithTag("alert").GetComponent<Text>();
+        //alert = GameObject.FindGameObjectWithTag("alert").GetComponent<Text>();
         hpText = GameObject.FindGameObjectWithTag("hp").GetComponent<Text>();
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("enemy"))
         {
@@ -66,7 +66,7 @@ public class MeleePlayerBattleController : MonoBehaviour
         {
             players.Add(obj);
         }
-        alert.enabled = false;
+        //alert.enabled = false;
     }
 
     // Update is called once per frame
@@ -107,12 +107,19 @@ public class MeleePlayerBattleController : MonoBehaviour
     public void EndTurn()
     {
         BattleManager battleManager = GameObject.Find("BattleStart").GetComponent<BattleManager>();
-        GlobalController.turn += 1;
+        /*GlobalController.turn += 1;
         if(GlobalController.turn>=battleManager.players.Count) 
         {
             GlobalController.turn = 0;
+        }*/
+        try
+        {
+            battleManager.players[battleManager.players.IndexOf(gameObject) + 1].GetComponent<Turn>().isTurn = true;
         }
-        battleManager.players[GlobalController.turn].GetComponent<Turn>().isTurn = true;
+        catch
+        {
+            battleManager.players[0].GetComponent<Turn>().isTurn = true;
+        }
         gameObject.GetComponent<Turn>().isTurn = false;
         attacked = false;
         isTurn = false;
@@ -180,7 +187,7 @@ public class MeleePlayerBattleController : MonoBehaviour
     void UpdateUI()
     {
         moveText.text = "Movement left: " + (speed - moved);
-        alert.enabled = enemyAdj;
+        //alert.enabled = enemyAdj;
         hpText.text = "HP: " + hp;
     }
     void checkHealth()
