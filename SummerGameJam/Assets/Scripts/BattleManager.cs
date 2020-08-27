@@ -36,7 +36,7 @@ public class BattleManager : MonoBehaviour
     public List<GameObject> parsedPlayers = new List<GameObject>();
     public List<GameObject> parsedEnemies = new List<GameObject>();
 
-    //public GameObject[,] grid = new GameObject[]
+    public static GameObject[,] grid = new GameObject[16,10];
 
     
     void Start()
@@ -72,14 +72,17 @@ public class BattleManager : MonoBehaviour
                 float ypos = float.Parse(items[2]);
                 if (type == "enemy")
                 {
-
-                    players.Add(Instantiate(enemie, new Vector3(xpos, ypos), Quaternion.identity));
+                    GameObject temp1 = Instantiate(enemie, new Vector3(xpos, ypos), Quaternion.identity);
+                    players.Add(temp1);
+                    grid[(int)xpos+8, (int)ypos+5] = temp1;
                     enemies += 1;
 
                 }
                 else if (type == "obj")
                 {
-                    parsedObjs.Add(Instantiate(StaticObj, new Vector3(xpos, ypos), Quaternion.identity));
+                    GameObject temp1 = Instantiate(StaticObj, new Vector3(xpos, ypos), Quaternion.identity);
+                    parsedObjs.Add(temp1);
+                    grid[(int)xpos+8, (int)ypos+5] = temp1;
                 }
                 else if (type == "partyPosition")
                 {
@@ -115,6 +118,7 @@ public class BattleManager : MonoBehaviour
                             temp.GetComponent<SpriteRenderer>().sprite = healerSprite;
                         }
                         players.Add(temp);
+                        grid[(int)xpos + 8, (int)ypos + 5] = temp;
                         positions.Add(posString);
                         amount++;
                         xy *= -1;

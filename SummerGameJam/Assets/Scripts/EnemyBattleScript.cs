@@ -328,19 +328,19 @@ public class EnemyBattleScript : MonoBehaviour
         {
 
             //0 = R, 1 = L, 2 = U, 4 = D               
-            if (enemyDirections.Contains("R"))
+            if (BattleManager.grid[(int)gameObject.transform.position.x + 9, (int)gameObject.transform.position.y+5] != null)
             {
                 dir[0] = -1000;
             }
-            else if (enemyDirections.Contains("L"))
+            else if (BattleManager.grid[(int)gameObject.transform.position.x + 7, (int)gameObject.transform.position.y+5] != null)
             {
                 dir[1] = -1000;
             }
-            else if (enemyDirections.Contains("U"))
+            else if (BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y+6] != null)
             {
                 dir[2] = -1000;
             }
-            else if (enemyDirections.Contains("D"))
+            else if (BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y+4] != null)
             {
                 dir[3] = -1000;
             }
@@ -439,6 +439,8 @@ public class EnemyBattleScript : MonoBehaviour
             moved++;
             Vector3 now = gameObject.transform.position;
             Vector3[] transition = new Vector3[] { prev, now };
+            BattleManager.grid[(int)gameObject.transform.position.x + 9, (int)gameObject.transform.position.y + 5] = gameObject;
+            BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y + 5] = null;
             BroadcastAll("updateColl", transition);
         }
         else if(s == "L")
@@ -448,6 +450,8 @@ public class EnemyBattleScript : MonoBehaviour
             moved++;
             Vector3 now = gameObject.transform.position;
             Vector3[] transition = new Vector3[] { prev, now };
+            BattleManager.grid[(int)gameObject.transform.position.x + 7, (int)gameObject.transform.position.y + 5] = gameObject;
+            BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y + 5] = null;
             BroadcastAll("updateColl", transition);
         }
         else if(s == "U")
@@ -457,6 +461,8 @@ public class EnemyBattleScript : MonoBehaviour
             moved++;
             Vector3 now = gameObject.transform.position;
             Vector3[] transition = new Vector3[] { prev, now };
+            BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y + 6] = gameObject;
+            BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y + 5] = null;
             BroadcastAll("updateColl", transition);
         }
         else if(s == "D")
@@ -466,6 +472,8 @@ public class EnemyBattleScript : MonoBehaviour
             moved++;
             Vector3 now = gameObject.transform.position;
             Vector3[] transition = new Vector3[] { prev, now };
+            BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y + 4] = gameObject;
+            BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y + 5] = null;
             BroadcastAll("updateColl", transition);
         }
 

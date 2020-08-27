@@ -133,50 +133,91 @@ public class MeleePlayerBattleController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            if (!enemyDirections.Contains("L"))
-            {
-                Vector3 prev = gameObject.transform.position;
-                gameObject.transform.position = new Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y);
-                moved++;
-                Vector3 now = gameObject.transform.position;
-                Vector3[] transition = new Vector3[] { prev, now };
-                BroadcastAll("updateColl", transition);
+            try{
+                if (BattleManager.grid[(int)gameObject.transform.position.x + 7, (int)gameObject.transform.position.y+5] == null)
+                {
+                    Vector3 prev = gameObject.transform.position;
+                    gameObject.transform.position = new Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y);
+                    moved++;
+                    Vector3 now = gameObject.transform.position;
+                    Vector3[] transition = new Vector3[] { prev, now };
+                    BattleManager.grid[(int)gameObject.transform.position.x + 7, (int)gameObject.transform.position.y + 5] = gameObject;
+                    BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y + 5] = null;
+                    BroadcastAll("updateColl", transition);
+                }
+                else {
+                    Debug.Log(BattleManager.grid[(int)gameObject.transform.position.x + 7, (int)gameObject.transform.position.y+5]);
+                }
             }
+            catch{
+
+            }
+
         }
         else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (!enemyDirections.Contains("R"))
-            {
-                Vector3 prev = gameObject.transform.position;
-                gameObject.transform.position = new Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y);
-                moved++;
-                Vector3 now = gameObject.transform.position;
-                Vector3[] transition = new Vector3[] { prev, now };
-                BroadcastAll("updateColl", transition);
+            try{
+                if (BattleManager.grid[(int)gameObject.transform.position.x + 9, (int)gameObject.transform.position.y+5] == null)
+                {
+                    Vector3 prev = gameObject.transform.position;
+                    gameObject.transform.position = new Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y);
+                    moved++;
+                    Vector3 now = gameObject.transform.position;
+                    Vector3[] transition = new Vector3[] { prev, now };
+                    BattleManager.grid[(int)gameObject.transform.position.x + 9, (int)gameObject.transform.position.y + 5] = gameObject;
+                    BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y + 5] = null;
+                    BroadcastAll("updateColl", transition);
+                }
+                else{
+                    Debug.Log(BattleManager.grid[(int)gameObject.transform.position.x + 9, (int)gameObject.transform.position.y+5]);
+                }
+            }
+            catch{
+
             }
         }
         else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (!enemyDirections.Contains("U"))
-            {
-                Vector3 prev = gameObject.transform.position;
-                gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1);
-                moved++;
-                Vector3 now = gameObject.transform.position;
-                Vector3[] transition = new Vector3[] { prev, now };
-                BroadcastAll("updateColl", transition);
+            try{
+                if (BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y+6] == null)
+                {
+                    Vector3 prev = gameObject.transform.position;
+                    gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1);
+                    moved++;
+                    Vector3 now = gameObject.transform.position;
+                    Vector3[] transition = new Vector3[] { prev, now };
+                    BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y + 6] = gameObject;
+                    BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y + 5] = null;
+                    BroadcastAll("updateColl", transition);
+                }
+                else{
+                    Debug.Log(BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y+6]);
+                }
+            }
+            catch{
+
             }
         }
         else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (!enemyDirections.Contains("D"))
-            {
-                Vector3 prev = gameObject.transform.position;
-                gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 1);
-                moved++;
-                Vector3 now = gameObject.transform.position;
-                Vector3[] transition = new Vector3[] { prev, now };
-                BroadcastAll("updateColl", transition);
+            try{
+                if (BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y+4] == null)
+                {
+                    Vector3 prev = gameObject.transform.position;
+                    gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 1);
+                    moved++;
+                    Vector3 now = gameObject.transform.position;
+                    Vector3[] transition = new Vector3[] { prev, now };
+                    BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y + 4] = gameObject;
+                    BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y + 5] = null;
+                    BroadcastAll("updateColl", transition);
+                }
+                else{
+                    Debug.Log(BattleManager.grid[(int)gameObject.transform.position.x + 8, (int)gameObject.transform.position.y+4]);
+                }
+            }
+            catch{
+                
             }
         }
         BoxCollider2D box = GetComponent<BoxCollider2D>();
