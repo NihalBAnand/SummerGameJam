@@ -16,6 +16,8 @@ public class PlayerScript : MonoBehaviour
     public Image textBox;
     public Text text;
 
+    public Slider progressBar; 
+
     public bool signRange = false;
     public string signText;
 
@@ -135,6 +137,10 @@ public class PlayerScript : MonoBehaviour
             signText = collision.GetComponent<SignController>().text;
             signRange = true;
         }
+        if (collision.tag == "mapper")
+        {
+            progressBar.GetComponent<ProgressBar>().holdFill();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -144,6 +150,7 @@ public class PlayerScript : MonoBehaviour
             space.enabled = false;
             signRange = false;
         }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

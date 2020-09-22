@@ -5,6 +5,7 @@ using UnityEngine;
 public class SignController : MonoBehaviour
 {
     public string text;
+    public bool isMap;
     // Start is called before the first frame update
     void Start()
     {

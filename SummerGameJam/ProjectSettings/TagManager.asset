@@ -13,6 +13,7 @@ TagManager:
   - hp
   - partyPosition
   - ignore
+  - mapper
   layers:
   - Default
   - TransparentFX
