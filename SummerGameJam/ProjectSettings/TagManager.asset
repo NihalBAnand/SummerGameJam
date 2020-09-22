@@ -14,6 +14,7 @@ TagManager:
   - partyPosition
   - ignore
   - manager
+  - selectbox
   layers:
   - Default
   - TransparentFX
