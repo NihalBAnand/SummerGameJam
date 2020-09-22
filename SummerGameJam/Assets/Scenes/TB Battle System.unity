@@ -132,9 +132,10 @@ GameObject:
   - component: {fileID: 220372165}
   - component: {fileID: 220372167}
   - component: {fileID: 220372166}
+  - component: {fileID: 220372168}
   m_Layer: 5
-  m_Name: Good1
-  m_TagString: Untagged
+  m_Name: Fighter
+  m_TagString: player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -194,6 +195,71 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 220372164}
   m_CullTransparentMesh: 0
+--- !u!114 &220372168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220372164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e6787e42bcb91544bb028327a900c52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  health: 0
+  doneLoading: 0
+--- !u!1 &495018518
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 495018519}
+  - component: {fileID: 495018520}
+  m_Layer: 0
+  m_Name: Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &495018519
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495018518}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &495018520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495018518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9ea8958cca29da4995212b2df70040f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  players: []
+  enemies: []
+  battlers: []
+  partyTurn: 0
+  totalPartySpeed: 0
+  totalEnemySpeed: 0
+  debugTurn: 0
 --- !u!1 &502496637
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,9 +354,10 @@ GameObject:
   - component: {fileID: 602964129}
   - component: {fileID: 602964131}
   - component: {fileID: 602964130}
+  - component: {fileID: 602964132}
   m_Layer: 5
   m_Name: Good2
-  m_TagString: Untagged
+  m_TagString: player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -350,6 +417,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 602964128}
   m_CullTransparentMesh: 0
+--- !u!114 &602964132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602964128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e6787e42bcb91544bb028327a900c52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  health: 0
+  doneLoading: 0
 --- !u!1 &721095657
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,9 +544,10 @@ GameObject:
   - component: {fileID: 1331234550}
   - component: {fileID: 1331234552}
   - component: {fileID: 1331234551}
+  - component: {fileID: 1331234553}
   m_Layer: 5
   m_Name: Baddie
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -524,6 +607,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1331234549}
   m_CullTransparentMesh: 0
+--- !u!114 &1331234553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331234549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e6787e42bcb91544bb028327a900c52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  health: 0
+  doneLoading: 0
 --- !u!1 &1584625355
 GameObject:
   m_ObjectHideFlags: 0
