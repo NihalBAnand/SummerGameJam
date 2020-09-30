@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class TurnBasedBattler : MonoBehaviour
 {
@@ -19,6 +21,8 @@ public class TurnBasedBattler : MonoBehaviour
     public Item activeItem;
     public Weapon activeWeapon;
     public Spell activeSpell;
+
+    public Text turnDisp;
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +56,7 @@ public class TurnBasedBattler : MonoBehaviour
         magicText = GameObject.Find("Magic");
         itemText = GameObject.Find("Item");
         runText = GameObject.Find("Run");
+        turnDisp = GameObject.FindGameObjectWithTag("turndisp").GetComponent<Text>();
 
         selectArrow.transform.position = new Vector3(attackText.transform.position.x - 100f, attackText.transform.position.y,0);
         //selectBox.SetActive(false);
@@ -151,6 +156,7 @@ public class TurnBasedBattler : MonoBehaviour
                 selectBox.SetActive(true);
             }
         }
+        turnDisp.text = gameObject.name;
     }
 
     // Update is called once per frame

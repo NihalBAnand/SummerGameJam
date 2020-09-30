@@ -15,6 +15,7 @@ TagManager:
   - ignore
   - manager
   - selectbox
+  - turndisp
   layers:
   - Default
   - TransparentFX
