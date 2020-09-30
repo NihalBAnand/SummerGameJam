@@ -146,16 +146,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 108125646}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1753433800}
-  m_RootOrder: 4
+  m_Father: {fileID: 721095661}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -389.3, y: 17.05}
+  m_AnchoredPosition: {x: 177, y: -143.95}
   m_SizeDelta: {x: 34.6, y: 25.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &108125648
@@ -691,6 +691,7 @@ RectTransform:
   - {fileID: 1331234550}
   - {fileID: 220372165}
   - {fileID: 602964129}
+  - {fileID: 108125647}
   - {fileID: 1753433800}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -1030,7 +1031,7 @@ GameObject:
   - component: {fileID: 1753433801}
   m_Layer: 5
   m_Name: SelectBox
-  m_TagString: Untagged
+  m_TagString: selectbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1050,9 +1051,8 @@ RectTransform:
   - {fileID: 1568725698}
   - {fileID: 531444716}
   - {fileID: 1655993277}
-  - {fileID: 108125647}
   m_Father: {fileID: 721095661}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

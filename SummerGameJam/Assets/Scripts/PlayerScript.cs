@@ -26,11 +26,14 @@ public class PlayerScript : MonoBehaviour
     public int maxMana;
     public int maxStamina;
     public int battleSpeed;
+
+    public List<Item> inventory;
     // Start is called before the first frame update
     void Start()
     {
         anim = gameObject.GetComponent<Animator>();
-      
+
+        inventory = new List<Item>();
 
         space.enabled = false;
         textBox.enabled = false;

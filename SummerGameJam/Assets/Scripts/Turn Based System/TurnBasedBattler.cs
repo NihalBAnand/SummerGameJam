@@ -35,7 +35,9 @@ public class TurnBasedBattler : MonoBehaviour
 
         selectBox = GameObject.FindGameObjectWithTag("selectbox");
         selectArrow = GameObject.Find("SelectArrow");
+        selectArrow.transform.position = new Vector3(-389.3f, 17.05f);
         selectBox.SetActive(false);
+        selectArrow.SetActive(false);
         selected = battleOptions[0];
 
     }
@@ -45,9 +47,38 @@ public class TurnBasedBattler : MonoBehaviour
         if(gameObject.tag == "player")
         {
             selectBox.SetActive(true);
+            selectArrow.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                if (selected == "Magic")
+                {
+                    selected = "Attack";
+                    selectArrow.transform.position = new Vector3(-389.3f, 17.05f);
+                }
+                if (selected == "Run")
+                {
+                    selected = "Item";
+                    selectArrow.transform.position = new Vector3(162f, 17.05f);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                if (selected == "Attack")
+                {
+                    selected = "Magic";
+                    selectArrow.transform.position = new Vector3(-389.3f, -21.95f);
+                }
+                if (selected == "Item")
+                {
+                    selected = "Run";
+                    selectArrow.transform.position = new Vector3(162f, -21.95f);
+                }
+            }
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                
+                TurnBasedBattleManager.currentTurn += 1;
+                selectBox.SetActive(true);
+                selectArrow.SetActive(false);
             }
         }
         if (gameObject.tag == "enemy")

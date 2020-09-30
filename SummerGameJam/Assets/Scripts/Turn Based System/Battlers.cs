@@ -30,29 +30,29 @@ public class Weapon
     
 }
 
-public class Item
+public abstract class Item
 {
-    public int cost;
-    public bool oneTime;
-    public string name;
-    public Action useFunc;
-    public Battler user;
+    public abstract void Use(Battler user);
+}
 
-    public Item(int c, bool oT, Action use)
+
+public class HealthPotion : Item
+{
+    public int potency;
+    public HealthPotion(int potent)
     {
-        this.cost = c;
-        this.oneTime = oT;
-        this.useFunc = use;
+        this.potency = potent;
     }
-
-    public void Use()
+    public override void Use(Battler user)
     {
-        useFunc();
-    }
-
-    public static void LesserHealthPotion(Battler b)
-    {
-        b.health += 10;
+        if (user.health + this.potency >= user.maxHealth)
+        {
+            user.health = user.maxHealth;
+        }
+        else
+        {
+            user.health += this.potency;
+        }
     }
 }
 
