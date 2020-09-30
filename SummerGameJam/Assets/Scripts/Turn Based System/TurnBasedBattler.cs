@@ -44,8 +44,8 @@ public class TurnBasedBattler : MonoBehaviour
         runText = GameObject.Find("Run");
 
         selectArrow.transform.position = new Vector3(attackText.transform.position.x - 100f, attackText.transform.position.y,0);
-        selectBox.SetActive(false);
-        selectArrow.SetActive(false);
+        //selectBox.SetActive(false);
+        //selectArrow.SetActive(false);
         selected = "Attack";
 
     }
@@ -111,17 +111,18 @@ public class TurnBasedBattler : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 TurnBasedBattleManager.currentTurn += 1;
-                selectBox.SetActive(true);
-                selectArrow.SetActive(false);
+                /*selectBox.SetActive(false);
+                selectArrow.SetActive(false);*/
             }
         }
         if (gameObject.tag == "enemy")
         {
-            
+            selectBox.SetActive(false);
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 TurnBasedBattleManager.currentTurn += 1;
                 GameObject.FindGameObjectsWithTag("player")[0].GetComponent<TurnBasedBattler>().health -= 10;
+                selectBox.SetActive(true);
             }
         }
     }
