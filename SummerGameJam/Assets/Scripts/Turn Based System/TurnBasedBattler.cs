@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using Packages.Rider.Editor.UnitTesting;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,6 +25,8 @@ public class TurnBasedBattler : MonoBehaviour
     public Spell activeSpell;
 
     public Text turnDisp;
+    public Text hpDisp;
+    public bool doEnemyAutoTurn;
     // Start is called before the first frame update
     void Start()
     {
@@ -56,13 +60,16 @@ public class TurnBasedBattler : MonoBehaviour
         magicText = GameObject.Find("Magic");
         itemText = GameObject.Find("Item");
         runText = GameObject.Find("Run");
+
         turnDisp = GameObject.FindGameObjectWithTag("turndisp").GetComponent<Text>();
+        hpDisp = GameObject.Find("HP").GetComponent<Text>();
 
         selectArrow.transform.position = new Vector3(attackText.transform.position.x - 100f, attackText.transform.position.y,0);
         //selectBox.SetActive(false);
         //selectArrow.SetActive(false);
         selected = "Attack";
 
+        doEnemyAutoTurn = true;
     }
 
     public void Turn()
@@ -71,6 +78,7 @@ public class TurnBasedBattler : MonoBehaviour
         {
             selectBox.SetActive(true);
             selectArrow.SetActive(true);
+            
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 if (selected == "Magic")
@@ -144,12 +152,23 @@ public class TurnBasedBattler : MonoBehaviour
                         Debug.Log("MASSIVE TO-DO: SWITCH BACK TO MAIN SCENE OF LEVEL");
                         break;
                 }
+                selected = "Attack";
+                selectArrow.transform.position = new Vector3(attackText.transform.position.x - 100f, attackText.transform.position.y, 0);
             }
         }
         if (gameObject.tag == "enemy")
         {
             selectBox.SetActive(false);
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (!doEnemyAutoTurn)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    TurnBasedBattleManager.currentTurn += 1;
+                    GameObject.FindGameObjectsWithTag("player")[0].GetComponent<TurnBasedBattler>().health -= gameObject.GetComponent<TurnBasedBattler>().activeWeapon.damage;
+                    selectBox.SetActive(true);
+                }
+            }
+            else
             {
                 TurnBasedBattleManager.currentTurn += 1;
                 GameObject.FindGameObjectsWithTag("player")[0].GetComponent<TurnBasedBattler>().health -= gameObject.GetComponent<TurnBasedBattler>().activeWeapon.damage;
@@ -157,11 +176,15 @@ public class TurnBasedBattler : MonoBehaviour
             }
         }
         turnDisp.text = gameObject.name;
+        hpDisp.text = "HP: " + gameObject.GetComponent<TurnBasedBattler>().health;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            doEnemyAutoTurn = !doEnemyAutoTurn;
+        }
     }
 }
