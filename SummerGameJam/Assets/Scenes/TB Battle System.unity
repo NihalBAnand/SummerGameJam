@@ -590,12 +590,12 @@ MonoBehaviour:
   health: 0
   doneLoading: 0
   selected: 
-  selectBox: {fileID: 0}
-  selectArrow: {fileID: 0}
-  attackText: {fileID: 0}
-  magicText: {fileID: 0}
-  itemText: {fileID: 0}
-  runText: {fileID: 0}
+  selectBox: {fileID: 1753433799}
+  selectArrow: {fileID: 108125646}
+  attackText: {fileID: 1814217001}
+  magicText: {fileID: 531444715}
+  itemText: {fileID: 1655993276}
+  runText: {fileID: 1568725697}
 --- !u!1 &721095657
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class Battler
@@ -10,8 +11,8 @@ public class Battler
     public int maxHealth;
     public int speed;
 
-    public Item activeItem;
-    public Weapon activeWeapon;
+    
+
 
     public Battler(int h, int mH, int s)
     {
@@ -27,12 +28,37 @@ public class Weapon
     public int damage;
     public string name;
 
-    
+    public Weapon(int c, int d, string n)
+    {
+        this.cost = c;
+        this.damage = d;
+        this.name = n;
+    }
+}
+
+public abstract class Spell
+{
+    public abstract void Use(TurnBasedBattler user, TurnBasedBattler target);
+}
+
+public class Fireball : Spell
+{
+    public int damage;
+
+    public Fireball(int d)
+    {
+        this.damage = d;
+    }
+
+    public override void Use(TurnBasedBattler user, TurnBasedBattler target)
+    {
+        target.health -= this.damage;
+    }
 }
 
 public abstract class Item
 {
-    public abstract void Use(Battler user);
+    public abstract void Use(TurnBasedBattler user);
 }
 
 
@@ -43,7 +69,7 @@ public class HealthPotion : Item
     {
         this.potency = potent;
     }
-    public override void Use(Battler user)
+    public override void Use(TurnBasedBattler user)
     {
         if (user.health + this.potency >= user.maxHealth)
         {
@@ -62,4 +88,11 @@ public class Battlers
     public static Battler mage = new Battler(90, 90, 10);
 
     public static Battler zombie = new Battler(40, 40, 6);
+
+    public static Weapon axe = new Weapon(70, 15, "Axe");
+    public static Weapon sword = new Weapon(100, 20, "Sword");
+    public static Weapon fist = new Weapon(0, 5, "Fist");
+    public static Weapon staff = new Weapon(10, 7, "Staff");
+
+    public static Fireball weakFireball = new Fireball(20);
 }
