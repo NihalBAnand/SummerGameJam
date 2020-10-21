@@ -11,6 +11,7 @@ public class ProgressBar : MonoBehaviour
     private float FillSpeed = 0.1f;
     private float targetProgress = 0;
     private bool nearMap = false;
+    PlayerScript playerScript;
 
     private void Awake()
     {
@@ -18,7 +19,7 @@ public class ProgressBar : MonoBehaviour
     }
     void Start()
     {
-
+        playerScript = GameObject.Find("PlayerScript").GetComponent<PlayerScript>();
     }
 
     // Update is called once per frame
@@ -26,7 +27,7 @@ public class ProgressBar : MonoBehaviour
     {
         if (slider.value < targetProgress)
             slider.value += FillSpeed * Time.deltaTime;
-        else if (nearMap == true && Input.GetKey(KeyCode.Return) && slider.value < 1)
+        else if (nearMap == true && Input.GetKey(KeyCode.Return) && slider.value < 1 && playerScript.signRange == true)
         {
                 slider.value += FillSpeed * Time.deltaTime;
         }

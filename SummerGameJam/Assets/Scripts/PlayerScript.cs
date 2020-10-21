@@ -140,6 +140,7 @@ public class PlayerScript : MonoBehaviour
         if (collision.tag == "mapper")
         {
             progressBar.GetComponent<ProgressBar>().holdFill();
+            progressBar.GetComponent<ProgressBar>().IncrementProgress(collision.GetComponent<SignController>().percent);
         }
     }
 
